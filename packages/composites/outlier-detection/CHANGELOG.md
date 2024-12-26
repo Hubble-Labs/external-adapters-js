@@ -1,5 +1,516 @@
 # @chainlink/outlier-detection-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 9f7c9ac80: Remove legos
+
+## 1.2.93
+
+### Patch Changes
+
+- @chainlink/ea@1.3.92
+
+## 1.2.92
+
+### Patch Changes
+
+- @chainlink/ea@1.3.91
+
+## 1.2.91
+
+### Patch Changes
+
+- @chainlink/ea@1.3.90
+
+## 1.2.90
+
+### Patch Changes
+
+- @chainlink/ea@1.3.89
+
+## 1.2.89
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea@1.3.88
+  - @chainlink/ea-reference-data-reader@1.3.30
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.2.88
+
+### Patch Changes
+
+- @chainlink/ea@1.3.87
+
+## 1.2.87
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea@1.3.86
+  - @chainlink/ea-reference-data-reader@1.3.29
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.86
+
+### Patch Changes
+
+- @chainlink/ea@1.3.85
+
+## 1.2.85
+
+### Patch Changes
+
+- @chainlink/ea@1.3.84
+
+## 1.2.84
+
+### Patch Changes
+
+- @chainlink/ea@1.3.83
+
+## 1.2.83
+
+### Patch Changes
+
+- @chainlink/ea@1.3.82
+
+## 1.2.82
+
+### Patch Changes
+
+- @chainlink/ea@1.3.81
+
+## 1.2.81
+
+### Patch Changes
+
+- @chainlink/ea@1.3.80
+
+## 1.2.80
+
+### Patch Changes
+
+- @chainlink/ea@1.3.79
+
+## 1.2.79
+
+### Patch Changes
+
+- @chainlink/ea@1.3.78
+
+## 1.2.78
+
+### Patch Changes
+
+- @chainlink/ea@1.3.77
+
+## 1.2.77
+
+### Patch Changes
+
+- @chainlink/ea@1.3.76
+
+## 1.2.76
+
+### Patch Changes
+
+- @chainlink/ea@1.3.75
+
+## 1.2.75
+
+### Patch Changes
+
+- @chainlink/ea@1.3.74
+
+## 1.2.74
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea@1.3.73
+  - @chainlink/ea-reference-data-reader@1.3.28
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.73
+
+### Patch Changes
+
+- @chainlink/ea@1.3.72
+
+## 1.2.72
+
+### Patch Changes
+
+- @chainlink/ea@1.3.71
+
+## 1.2.71
+
+### Patch Changes
+
+- @chainlink/ea@1.3.70
+
+## 1.2.70
+
+### Patch Changes
+
+- @chainlink/ea@1.3.69
+
+## 1.2.69
+
+### Patch Changes
+
+- @chainlink/ea@1.3.68
+
+## 1.2.68
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea@1.3.67
+  - @chainlink/ea-reference-data-reader@1.3.27
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.67
+
+### Patch Changes
+
+- @chainlink/ea@1.3.66
+
+## 1.2.66
+
+### Patch Changes
+
+- @chainlink/ea@1.3.65
+
+## 1.2.65
+
+### Patch Changes
+
+- @chainlink/ea@1.3.64
+
+## 1.2.64
+
+### Patch Changes
+
+- @chainlink/ea@1.3.63
+
+## 1.2.63
+
+### Patch Changes
+
+- @chainlink/ea@1.3.62
+
+## 1.2.62
+
+### Patch Changes
+
+- @chainlink/ea@1.3.61
+
+## 1.2.61
+
+### Patch Changes
+
+- @chainlink/ea@1.3.60
+
+## 1.2.60
+
+### Patch Changes
+
+- @chainlink/ea@1.3.59
+
+## 1.2.59
+
+### Patch Changes
+
+- Updated dependencies [838c9d927]
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/ea@1.3.58
+  - @chainlink/ea-reference-data-reader@1.3.26
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.58
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-reference-data-reader@1.3.25
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/ea@1.3.57
+
+## 1.2.57
+
+### Patch Changes
+
+- @chainlink/ea@1.3.56
+
+## 1.2.56
+
+### Patch Changes
+
+- @chainlink/ea@1.3.55
+
+## 1.2.55
+
+### Patch Changes
+
+- @chainlink/ea@1.3.54
+
+## 1.2.54
+
+### Patch Changes
+
+- @chainlink/ea@1.3.53
+
+## 1.2.53
+
+### Patch Changes
+
+- @chainlink/ea@1.3.52
+
+## 1.2.52
+
+### Patch Changes
+
+- @chainlink/ea@1.3.51
+
+## 1.2.51
+
+### Patch Changes
+
+- @chainlink/ea@1.3.50
+
+## 1.2.50
+
+### Patch Changes
+
+- @chainlink/ea@1.3.49
+
+## 1.2.49
+
+### Patch Changes
+
+- @chainlink/ea@1.3.48
+
+## 1.2.48
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea@1.3.47
+  - @chainlink/ea-reference-data-reader@1.3.24
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.47
+
+### Patch Changes
+
+- @chainlink/ea@1.3.46
+
+## 1.2.46
+
+### Patch Changes
+
+- @chainlink/ea@1.3.45
+
+## 1.2.45
+
+### Patch Changes
+
+- @chainlink/ea@1.3.44
+
+## 1.2.44
+
+### Patch Changes
+
+- @chainlink/ea@1.3.43
+
+## 1.2.43
+
+### Patch Changes
+
+- @chainlink/ea@1.3.42
+
+## 1.2.42
+
+### Patch Changes
+
+- @chainlink/ea@1.3.41
+
+## 1.2.41
+
+### Patch Changes
+
+- @chainlink/ea@1.3.40
+
+## 1.2.40
+
+### Patch Changes
+
+- @chainlink/ea@1.3.39
+
+## 1.2.39
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-reference-data-reader@1.3.23
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/ea@1.3.38
+
+## 1.2.38
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/ea-reference-data-reader@1.3.22
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/ea@1.3.37
+
+## 1.2.37
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/ea@1.3.36
+  - @chainlink/ea-reference-data-reader@1.3.21
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.36
+
+### Patch Changes
+
+- Updated dependencies [26b046b1e]
+  - @chainlink/ea-bootstrap@2.22.1
+  - @chainlink/ea@1.3.35
+  - @chainlink/ea-reference-data-reader@1.3.20
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.35
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/ea@1.3.34
+  - @chainlink/ea-reference-data-reader@1.3.19
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.34
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/ea@1.3.33
+  - @chainlink/ea-reference-data-reader@1.3.18
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.33
+
+### Patch Changes
+
+- @chainlink/ea@1.3.32
+
+## 1.2.32
+
+### Patch Changes
+
+- Updated dependencies [b9982adc8]
+- Updated dependencies [f710272c6]
+- Updated dependencies [991fc76af]
+  - @chainlink/ea-bootstrap@2.20.0
+  - @chainlink/ea@1.3.31
+  - @chainlink/ea-reference-data-reader@1.3.17
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.31
+
+### Patch Changes
+
+- @chainlink/ea@1.3.30
+
+## 1.2.30
+
+### Patch Changes
+
+- @chainlink/ea@1.3.29
+
+## 1.2.29
+
+### Patch Changes
+
+- @chainlink/ea@1.3.28
+
+## 1.2.28
+
+### Patch Changes
+
+- @chainlink/ea@1.3.27
+
+## 1.2.27
+
+### Patch Changes
+
+- @chainlink/ea@1.3.26
+
+## 1.2.26
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea@1.3.25
+  - @chainlink/ea-reference-data-reader@1.3.16
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.25
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea@1.3.24
+  - @chainlink/ea-reference-data-reader@1.3.15
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.24
+
+### Patch Changes
+
+- @chainlink/ea@1.3.23
+
+## 1.2.23
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/ea-reference-data-reader@1.3.14
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/ea@1.3.22
+
 ## 1.2.22
 
 ### Patch Changes

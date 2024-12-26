@@ -1,26 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute rate api should return success 1`] = `
-Object {
-  "data": Object {
+exports[`rest forex endpoint (quote alias) should return success 1`] = `
+{
+  "data": {
     "result": 1.15894,
   },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
   "result": 1.15894,
   "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;
 
-exports[`execute rate api with invalid base should return failure 1`] = `
-Object {
-  "error": Object {
-    "feedID": "{\\"data\\":{\\"base\\":\\"NON-EXISTING\\",\\"endpoint\\":\\"quote\\"}}",
-    "message": "Invalid result received. This is likely an issue with the data provider or the input params/overrides.",
-    "name": "AdapterError",
+exports[`rest quote endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.15894,
   },
-  "jobRunID": "1",
-  "status": "errored",
-  "statusCode": 400,
+  "result": 1.15894,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest stock endpoint (quote alias) should return success 1`] = `
+{
+  "data": {
+    "result": 175.43,
+  },
+  "result": 175.43,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
 }
 `;

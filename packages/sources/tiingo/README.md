@@ -1,172 +1,71 @@
-# Chainlink External Adapter for Tiingo
+# TIINGO
 
-![1.12.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json)
-
-Base URL https://api.tiingo.com
+![2.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |     Name     | Description |  Type  | Options |             Default              |
-| :-------: | :----------: | :---------: | :----: | :-----: | :------------------------------: |
-|    ✅     |   API_KEY    |             | string |         |                                  |
-|           | API_ENDPOINT |             | string |         | `https://api.tiingo.com/tiingo/` |
+| Required? |      Name       |          Description          |  Type  | Options |          Default          |
+| :-------: | :-------------: | :---------------------------: | :----: | :-----: | :-----------------------: |
+|           |  API_ENDPOINT   |    API endpoint for tiingo    | string |         | `https://api.tiingo.com/` |
+|    ✅     |     API_KEY     |      API key for tiingo       | string |         |                           |
+|           | WS_API_ENDPOINT | websocket endpoint for tiingo | string |         |  `wss://api.tiingo.com`   |
 
 ---
 
 ## Input Parameters
 
-Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
+Every EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                            Options                                                                                                                                                                                            | Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-synth](#prices-endpoint), [crypto-vwap](#cryptovwap-endpoint), [crypto](#prices-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#prices-endpoint), [prices](#prices-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#prices-endpoint), [vwap](#cryptovwap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                                                                                             Options                                                                                                                                                                                                                                                                                                                             | Default  |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [commodities](#forex-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto-synth](#crypto-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [cryptoyield](#cryptoyield-endpoint), [eod](#eod-endpoint), [forex](#forex-endpoint), [fx](#forex-endpoint), [iex](#iex-endpoint), [price](#crypto-endpoint), [prices](#crypto-endpoint), [realized-vol](#realized-vol-endpoint), [realized-volatility](#realized-vol-endpoint), [stock](#iex-endpoint), [top](#top-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint), [yield](#cryptoyield-endpoint) | `crypto` |
 
-## Eod Endpoint
+## Crypto Endpoint
 
-https://api.tiingo.com/documentation/end-of-day
-
-`eod` is the only supported name for this endpoint.
+Supported names for this endpoint are: `crypto`, `crypto-synth`, `price`, `prices`.
 
 ### Input Params
 
-| Required? |  Name  |        Aliases         |        Description        | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :--------------------: | :-----------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | ticker | `base`, `coin`, `from` | The stock ticker to query |      |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "ticker": "usd",
-    "endpoint": "eod",
-    "resultPath": "close"
-  },
-  "debug": {
-    "cacheKey": "0gx6fGrPny0znqEADWu2A26fvgc="
-  },
-  "rateLimitMaxAge": 7999
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": [
-      {
-        "adjClose": 48.77,
-        "adjHigh": 50.02,
-        "adjLow": 45.3,
-        "adjOpen": 45.3,
-        "adjVolume": 253971,
-        "close": 48.77,
-        "date": "2021-11-04T00:00:00+00:00",
-        "divCash": 0,
-        "high": 50.02,
-        "low": 45.3,
-        "open": 45.3,
-        "splitFactor": 1,
-        "volume": 253971
-      }
-    ],
-    "result": 48.77
-  },
-  "result": 48.77,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
-## Iex Endpoint
+## Volume Endpoint
 
-https://api.tiingo.com/documentation/iex
-
-Supported names for this endpoint are: `iex`, `stock`.
+`volume` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name  |        Aliases         |        Description        | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :--------------------: | :-----------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | ticker | `base`, `coin`, `from` | The stock ticker to query |      |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
-Request:
-
-```json
-{
-  "id": "1",
-  "data": {
-    "ticker": "aapl",
-    "endpoint": "iex",
-    "resultPath": "tngoLast"
-  },
-  "debug": {
-    "cacheKey": "SDvITSsCENORfQYpucTxeu6zK1w="
-  },
-  "rateLimitMaxAge": 15999
-}
-```
-
-Response:
-
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": [
-      {
-        "prevClose": 48.77,
-        "last": 51.27,
-        "lastSaleTimestamp": "2021-11-05T11:54:23.055122029-04:00",
-        "low": 49.68,
-        "bidSize": 0,
-        "askPrice": 0,
-        "open": 49.68,
-        "mid": null,
-        "volume": 680,
-        "lastSize": 80,
-        "tngoLast": 51.27,
-        "ticker": "AAPL",
-        "askSize": 0,
-        "quoteTimestamp": "2021-11-05T11:54:23.055122029-04:00",
-        "bidPrice": 0,
-        "timestamp": "2021-11-05T11:54:23.055122029-04:00",
-        "high": 51.345
-      }
-    ],
-    "result": 51.27
-  },
-  "result": 51.27,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+There are no examples for this endpoint.
 
 ---
 
 ## Top Endpoint
 
-The top of order book endpoint from https://api.tiingo.com/documentation/crypto
-
 `top` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                Description                 | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :----------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` |     The cryptocurrency symbol to query     |      |         |         |            |                |
-|    ✅     | quote | `market`, `to` | The output currency to return the price in |      |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
@@ -182,7 +81,7 @@ Request:
     "resultPath": "lastPrice"
   },
   "debug": {
-    "cacheKey": "R/+oWEtyjnuPLKZDzvcW8wq2oPk="
+    "cacheKey": "XXzVr1BJSz0yu7fS24TstI7/6y8="
   },
   "rateLimitMaxAge": 31999
 }
@@ -227,22 +126,15 @@ Response:
 
 ---
 
-## Prices Endpoint
+## Eod Endpoint
 
-The `crypto`, `volume`, and `prices` endpoints come from https://api.tiingo.com/documentation/crypto.
-
-`crypto` and `prices` endpoints return a VWAP of all the exchanges on the current day and across base tokens.
-
-`volume` returns the 24h volume for a pair.
-
-Supported names for this endpoint are: `crypto`, `crypto-synth`, `price`, `prices`, `volume`.
+`eod` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     |                Description                 | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :----------------------------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` |     The cryptocurrency symbol to query     |      |         |         |            |                |
-|    ✅     | quote | `market`, `to` | The output currency to return the price in |      |         |         |            |                |
+| Required? |  Name  |        Aliases         |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :--------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | ticker | `base`, `coin`, `from` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 
@@ -252,15 +144,14 @@ Request:
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD",
-    "endpoint": "prices",
-    "resultPath": "fxClose"
+    "ticker": "usd",
+    "endpoint": "eod",
+    "resultPath": "close"
   },
   "debug": {
-    "cacheKey": "ahHlkw91jTnrwUAG+KEXi9Uio5Y="
+    "cacheKey": "rn5jUNNxMYEb+GpB2c3j3OHq7GE="
   },
-  "rateLimitMaxAge": 24000
+  "rateLimitMaxAge": 7999
 }
 ```
 
@@ -272,38 +163,42 @@ Response:
   "data": {
     "payload": [
       {
-        "ticker": "ethusd",
-        "baseCurrency": "eth",
-        "quoteCurrency": "usd",
-        "priceData": [
-          {
-            "open": 4480.102875037304,
-            "high": 4587.688720578152,
-            "low": 4417.835408304461,
-            "close": 4462.5193860735335,
-            "volume": 917488.0172696838,
-            "tradesDone": 2567528,
-            "volumeNotional": 4094298121.291589,
-            "fxOpen": 4480.102875037304,
-            "fxHigh": 4587.688720578152,
-            "fxLow": 4417.835408304461,
-            "fxClose": 4462.5193860735335,
-            "fxVolumeNotional": 4094298121.291589,
-            "fxRate": 1
-          }
-        ]
+        "adjClose": 48.77,
+        "adjHigh": 50.02,
+        "adjLow": 45.3,
+        "adjOpen": 45.3,
+        "adjVolume": 253971,
+        "close": 48.77,
+        "date": "2021-11-04T00:00:00+00:00",
+        "divCash": 0,
+        "high": 50.02,
+        "low": 45.3,
+        "open": 45.3,
+        "splitFactor": 1,
+        "volume": 253971
       }
     ],
-    "result": 4462.5193860735335
+    "result": 48.77
   },
-  "result": 4462.5193860735335,
+  "result": 48.77,
   "statusCode": 200,
   "providerStatusCode": 200
 }
 ```
 
-<details>
-<summary>Additional Examples</summary>
+---
+
+## Iex Endpoint
+
+Supported names for this endpoint are: `iex`, `stock`.
+
+### Input Params
+
+| Required? | Name |         Aliases          |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :----------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from`, `ticker` | The stock ticker to query | string |         |         |            |                |
+
+### Example
 
 Request:
 
@@ -311,15 +206,14 @@ Request:
 {
   "id": "1",
   "data": {
-    "base": "ETH",
-    "quote": "USD",
-    "endpoint": "volume",
-    "resultPath": "volumeNotional"
+    "ticker": "aapl",
+    "endpoint": "iex",
+    "resultPath": "tngoLast"
   },
   "debug": {
-    "cacheKey": "uylgVIQKV/L+6zgVaUjEMfzoh40="
+    "cacheKey": "pas76xQPJqkVCIB809Lj6oafbX4="
   },
-  "rateLimitMaxAge": 39999
+  "rateLimitMaxAge": 15999
 }
 ```
 
@@ -331,53 +225,45 @@ Response:
   "data": {
     "payload": [
       {
-        "ticker": "ethusd",
-        "baseCurrency": "eth",
-        "quoteCurrency": "usd",
-        "priceData": [
-          {
-            "open": 4480.102875037304,
-            "high": 4587.688720578152,
-            "low": 4417.835408304461,
-            "close": 4462.5193860735335,
-            "volume": 917488.0172696838,
-            "tradesDone": 2567528,
-            "volumeNotional": 4094298121.291589,
-            "fxOpen": 4480.102875037304,
-            "fxHigh": 4587.688720578152,
-            "fxLow": 4417.835408304461,
-            "fxClose": 4462.5193860735335,
-            "fxVolumeNotional": 4094298121.291589,
-            "fxRate": 1
-          }
-        ]
+        "prevClose": 48.77,
+        "last": 51.27,
+        "lastSaleTimestamp": "2021-11-05T11:54:23.055122029-04:00",
+        "low": 49.68,
+        "bidSize": 0,
+        "askPrice": 0,
+        "open": 49.68,
+        "mid": null,
+        "volume": 680,
+        "lastSize": 80,
+        "tngoLast": 51.27,
+        "ticker": "AAPL",
+        "askSize": 0,
+        "quoteTimestamp": "2021-11-05T11:54:23.055122029-04:00",
+        "bidPrice": 0,
+        "timestamp": "2021-11-05T11:54:23.055122029-04:00",
+        "high": 51.345
       }
     ],
-    "result": 4094298121.291589
+    "result": 51.27
   },
-  "result": 4094298121.291589,
+  "result": 51.27,
   "statusCode": 200,
   "providerStatusCode": 200
 }
 ```
 
-</details>
-
 ---
 
 ## Forex Endpoint
-
-https://api.tiingo.com/documentation/forex
-This endpoint has the ability to leverage inverses in the scenario a specific pair exists but not its inverse on the Tiingo forex API.
 
 Supported names for this endpoint are: `commodities`, `forex`, `fx`.
 
 ### Input Params
 
-| Required? | Name  |          Aliases          |       Description       | Type | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----------------------: | :---------------------: | :--: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `asset`, `from`, `market` |   The asset to query    |      |         |         |            |                |
-|    ✅     | quote |           `to`            | The quote to convert to |      |         |         |            |                |
+| Required? | Name  |          Aliases          |       Description       |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :-----------------------: | :---------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `asset`, `from`, `market` |   The asset to query    | string |         |         |            |                |
+|    ✅     | quote |           `to`            | The quote to convert to | string |         |         |            |                |
 
 ### Example
 
@@ -393,7 +279,7 @@ Request:
     "resultPath": "midPrice"
   },
   "debug": {
-    "cacheKey": "nNGTBPQMuNeDIBcqHmoSuDeMaVw="
+    "cacheKey": "sA1ClRAaejm61wjO60JmffINysg="
   },
   "rateLimitMaxAge": 48000
 }
@@ -439,7 +325,7 @@ Request:
     "resultPath": "midPrice"
   },
   "debug": {
-    "cacheKey": "p1BAwN7XZ74iOPHKeVwq2euuWe8="
+    "cacheKey": "SbQFhb2JjSBLEZu27s5Ce6fC27E="
   },
   "rateLimitMaxAge": 56000
 }
@@ -474,91 +360,71 @@ Response:
 
 ---
 
-## CryptoVwap Endpoint
+## Vwap Endpoint
 
 Supported names for this endpoint are: `crypto-vwap`, `vwap`.
 
 ### Input Params
 
-| Required? | Name  |    Aliases     | Description |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :------------: | :---------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from` |             | string |         |         |            |                |
-|    ✅     | quote | `market`, `to` |             | string |         |         |            |                |
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
-Request:
+There are no examples for this endpoint.
 
-```json
-{
-  "id": "1",
-  "data": {
-    "base": "AMPL",
-    "quote": "USD",
-    "endpoint": "crypto-vwap",
-    "resultPath": "fxClose"
-  },
-  "debug": {
-    "cacheKey": "pWgCN8xv36qP+Lu3H/SD71Pup88="
-  },
-  "rateLimitMaxAge": 63999
-}
-```
+---
 
-Response:
+## Crypto-lwba Endpoint
 
-```json
-{
-  "jobRunID": "1",
-  "data": {
-    "payload": [
-      {
-        "ticker": "amplusd",
-        "baseCurrency": "ampl",
-        "quoteCurrency": "usd",
-        "priceData": [
-          {
-            "fxLow": 0.6687492814959118,
-            "volume": 3040820.8077948317,
-            "volumeNotional": 2156262.1333203353,
-            "close": 0.7091192957589304,
-            "tradesDone": 15128,
-            "fxRate": 1,
-            "open": 0.7253618170091394,
-            "date": "2022-01-10T00:00:00+00:00",
-            "low": 0.6687492814959118,
-            "fxOpen": 0.7253618170091394,
-            "fxClose": 0.7091192957589304,
-            "high": 0.7421611700495103,
-            "fxVolumeNotional": 2156262.1333203353,
-            "fxHigh": 0.7421611700495103
-          },
-          {
-            "fxLow": 0.7021978513298123,
-            "volume": 3046332.756485964,
-            "volumeNotional": 2594073.9097942426,
-            "close": 0.851625908515737,
-            "tradesDone": 22817,
-            "fxRate": 1,
-            "open": 0.708183339731143,
-            "date": "2022-01-11T00:00:00+00:00",
-            "low": 0.7021978513298123,
-            "fxOpen": 0.708183339731143,
-            "fxClose": 0.851625908515737,
-            "high": 0.8598988101118933,
-            "fxVolumeNotional": 2594073.9097942426,
-            "fxHigh": 0.8598988101118933
-          }
-        ]
-      }
-    ],
-    "result": 0.7091192957589304
-  },
-  "result": 0.7091192957589304,
-  "statusCode": 200,
-  "providerStatusCode": 200
-}
-```
+Supported names for this endpoint are: `crypto-lwba`, `crypto_lwba`, `cryptolwba`.
+
+### Input Params
+
+| Required? | Name  |    Aliases     |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote | `market`, `to` |    The symbol of the currency to convert to    | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Cryptoyield Endpoint
+
+Supported names for this endpoint are: `cryptoyield`, `yield`.
+
+### Input Params
+
+| Required? |  Name   | Aliases |  Description   |  Type  |     Options      | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :-----: | :------------: | :----: | :--------------: | :-----: | :--------: | :------------: |
+|    ✅     | aprTerm |         | Yield apr term | string | `30Day`, `90Day` |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Realized-vol Endpoint
+
+Supported names for this endpoint are: `realized-vol`, `realized-volatility`.
+
+### Input Params
+
+| Required? |    Name    |    Aliases     |                       Description                        |  Type  | Options |    Default     | Depends On | Not Valid With |
+| :-------: | :--------: | :------------: | :------------------------------------------------------: | :----: | :-----: | :------------: | :--------: | :------------: |
+|    ✅     |    base    | `coin`, `from` |  The base currency to query the realized volatility for  | string |         |                |            |                |
+|           |  convert   | `quote`, `to`  | The quote currency to convert the realized volatility to | string |         |     `USD`      |            |                |
+|           | resultPath |                |        The field to return within the result path        | string |         | `realVol30Day` |            |                |
+
+### Example
+
+There are no examples for this endpoint.
 
 ---
 

@@ -1,5 +1,133 @@
 # @chainlink/ea-bootstrap
 
+## 2.27.1
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+
+## 2.27.0
+
+### Minor Changes
+
+- 3dc13a0bc: Remove resultPath from cache key generation
+
+## 2.26.1
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
+## 2.26.0
+
+### Minor Changes
+
+- b29509be0: Updated Requester.validateResultNumber to take acceptZeroValue option
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+
+## 2.25.2
+
+### Patch Changes
+
+- 838c9d927: Add NFT Blue Chip Index Adapter
+
+## 2.25.1
+
+### Patch Changes
+
+- 0719f739b: Treat literal "" env var values as empty
+
+## 2.25.0
+
+### Minor Changes
+
+- fc46b78fc: Made max payload size configurable with min/max limits
+- 1de0689c6: Deprecated the METRICS_NAME env var so the app_name label will always use the adapter name. Current users of this env var would notice metric name changes from their unique one.
+  Added a warning log when METRICS_ENABLED is set to false.
+  Added a log to show the full metrics endpoint on startup rather than just the port number.
+
+## 2.24.0
+
+### Minor Changes
+
+- 842651f93: Show request data when requester.request fails
+
+### Patch Changes
+
+- e8576df4e: Added warning logs for DEBUG and NODE_ENV
+
+## 2.23.0
+
+### Minor Changes
+
+- 221ab1e5f: Warn on custom rate limit capacity
+
+### Patch Changes
+
+- 13eb04f5a: Added warning log when LOG_LEVEL set to DEBUG or TRACE
+
+## 2.22.2
+
+### Patch Changes
+
+- 572b89314: Fixed a potential issue where log censoring could crash the EA due to circular references
+- 068dd3672: changed websocket only request timeout message
+
+## 2.22.1
+
+### Patch Changes
+
+- 26b046b1e: Fixed conflicting redis client dependencies
+
+## 2.22.0
+
+### Minor Changes
+
+- b8061e1d5: Removed UUID environment variable. UUID was used for generating cache group keys. There is no action needed if
+  you were not using UUID environment variable and/or
+  running single instance of EA or
+  using UUID with multiple instances of the same EA with a shared cache.
+  If you were using UUID to run multiple instances of the same EA with isolated cache, you should use CACHE_KEY_GROUP environment variable instead. Applicable only in remote cache scenarios like when using redis for cache.
+
+## 2.21.0
+
+### Minor Changes
+
+- 3c1a320b5: Added new logging censorship implementation
+
+## 2.20.0
+
+### Minor Changes
+
+- b9982adc8: requestor now accepts customError functions that return either a string or a boolean and includes message if string
+
+### Patch Changes
+
+- f710272c6: Only clear metrics registry when METRICS_ENABLED=false
+- 991fc76af: Change default EA HOST value to 0.0.0.0
+
+## 2.19.3
+
+### Patch Changes
+
+- 5e7393deb: Lower API_TIMEOUT to 10000 (10s)
+- 5e7393deb: Add API_TIMEOUT to env default overrides, with an override of 30s for Kaiko
+
+## 2.19.2
+
+### Patch Changes
+
+- 3a0e5aaa9: Expanded coverage of redacting secrets in logs
+
+## 2.19.1
+
+### Patch Changes
+
+- 05a3f9464: Prevent updating properties of WS connection/subscription missing from state
+
 ## 2.19.0
 
 ### Minor Changes

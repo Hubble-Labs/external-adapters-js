@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Uniswap V2
 
-![1.2.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v2/package.json)
+![2.0.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/uniswap-v2/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This adapter allows querying Uniswap V2 contracts
 
@@ -12,6 +12,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | :-------: | :----------------: | :-------------------------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
 |    ✅     |  ETHEREUM_RPC_URL  |               An http(s) RPC URL to a blockchain node that can read the UniswapV2 contracts               | string |         |                                              |
 |           |      RPC_URL       |       A fallback http(s) RPC URL to a backup blockchain node that can read the UniswapV2 contracts        | string |         |                                              |
+|           | ETHEREUM_CHAIN_ID  |                                        The chain id to connect to                                         | string |         |                     `1`                      |
 |           | BLOCKCHAIN_NETWORK | The network to get pre-defined token addresses from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET | string |         |                  `ethereum`                  |
 |           |  ROUTER_CONTRACT   |    The Uniswap router address to get price from. NOTE: THIS SHOULD NOT BE CHANGED ON ETHEREUM MAINNET     | string |         | `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D` |
 
@@ -58,7 +59,7 @@ Request:
     "resultPath": "rate"
   },
   "debug": {
-    "cacheKey": "YZV70B+kzz3Gu9THcBM+4QpTL3M="
+    "cacheKey": "8+57VCexLY5xpa6wBMELqPDkP4w="
   }
 }
 ```
@@ -102,7 +103,7 @@ Request:
     "resultPath": "rate"
   },
   "debug": {
-    "cacheKey": "hmzKgkCmu9duLKvBc7VrO8c1qFw="
+    "cacheKey": "vDDkmKyrSIMCbdoztDdiWyIDYmQ="
   }
 }
 ```

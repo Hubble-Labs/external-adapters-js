@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Twelvedata
 
-![1.2.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twelvedata/package.json)
+![1.3.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/twelvedata/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 `closing` endpoint provides the closing price of the previous day as detailed in [Twelvedata documentation](https://twelvedata.com/docs#end-of-day-price).
 
@@ -21,9 +21,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 Every EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)
 
-| Required? |   Name   |     Description     |  Type  |                                                                             Options                                                                             |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [closing](#closing-endpoint), [crypto](#price-endpoint), [eod](#closing-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#price-endpoint) | `closing` |
+| Required? |   Name   |     Description     |  Type  |                                                                                          Options                                                                                           |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [closing](#closing-endpoint), [crypto](#price-endpoint), [eod](#closing-endpoint), [forex](#price-endpoint), [price](#price-endpoint), [stock](#price-endpoint), [uk_etf](#price-endpoint) | `closing` |
 
 ## Closing Endpoint
 
@@ -33,9 +33,9 @@ Supported names for this endpoint are: `closing`, `eod`.
 
 ### Input Params
 
-| Required? | Name |              Aliases               |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `coin`, `from`, `market`, `symbol` | The symbol of the currency to query | string |         |         |            |                |
+| Required? | Name |                   Aliases                    |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :------------------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from`, `market`, `symbol`, `uk_etf` | The symbol of the currency to query | string |         |         |            |                |
 
 ### Example
 
@@ -79,13 +79,13 @@ Response:
 
 This `price` endpoint provides the real-time price as detailed in [Twelvedata documentation](https://twelvedata.com/docs#real-time-price).
 
-Supported names for this endpoint are: `crypto`, `forex`, `price`, `stock`.
+Supported names for this endpoint are: `crypto`, `forex`, `price`, `stock`, `uk_etf`.
 
 ### Input Params
 
-| Required? | Name |              Aliases               |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :--------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `coin`, `from`, `market`, `symbol` | The symbol of the currency to query | string |         |         |            |                |
+| Required? | Name |                   Aliases                    |             Description             |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :------------------------------------------: | :---------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `coin`, `from`, `market`, `symbol`, `uk_etf` | The symbol of the currency to query | string |         |         |            |                |
 
 ### Example
 

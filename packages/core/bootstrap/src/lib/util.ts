@@ -14,6 +14,7 @@ import { flatMap, values, List } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { logger } from './modules/logger'
 import { AdapterConfigError, AdapterError, RequiredEnvError } from './modules/error'
+import { CensorList, CensorKeyValue, configRedactEnvVars } from './config/logging'
 
 export const isString = (value: unknown): boolean =>
   typeof value === 'string' || value instanceof String
@@ -31,7 +32,7 @@ export const baseEnvDefaults: EnvDefaults = {
   METRICS_PORT: '9080',
   METRICS_ENABLED: 'true',
   RETRY: '1',
-  API_TIMEOUT: '30000',
+  API_TIMEOUT: '10000',
   CACHE_ENABLED: 'true',
   CACHE_TYPE: 'local',
   CACHE_MAX_AGE: '90000', // 1.5 minutes
@@ -44,6 +45,7 @@ export const baseEnvDefaults: EnvDefaults = {
   CACHE_REDIS_MAX_RECONNECT_COOLDOWN: '3000', // Max cooldown time before attempting to reconnect (ms)
   CACHE_REDIS_PORT: '6379', // Port of the Redis server
   CACHE_REDIS_TIMEOUT: '1000', // Timeout per request (ms)
+  MAX_PAYLOAD_SIZE_LIMIT: '1048576', // Default to Fastify server default of 1MB (bytes)
   RATE_LIMIT_ENABLED: 'true',
   WARMUP_ENABLED: 'true',
   WARMUP_UNHEALTHY_THRESHOLD: '3',
@@ -106,10 +108,7 @@ export const getRandomRequiredEnv = (
 }
 
 // We generate an UUID per instance
-export const uuid = (): string => {
-  if (!process.env.UUID) process.env.UUID = uuidv4()
-  return process.env.UUID
-}
+export const uuid = (): string => uuidv4()
 
 /**
  * Return a value used for exponential backoff in milliseconds.
@@ -187,12 +186,12 @@ const isEnvNameValid = (name: string) => /^[_a-z0-9]+$/i.test(name)
  */
 export const getEnv = (name: string, prefix = '', context?: AdapterContext): string | undefined => {
   let envVar = process.env[getEnvName(name, prefix)]
-  if (!envVar || envVar === '') {
+  if (!envVar || envVar === '' || envVar === '""') {
     //@ts-expect-error EnvDefaultOverrides only allows specific string keys, but optional chaining
     // protects against cases where 'name' is not in EnvDefaultOverrides
     envVar = context?.envDefaultOverrides?.[name] ?? baseEnvDefaults[name]
   }
-  if (envVar === '') envVar = undefined
+  if (envVar === '' || envVar === '""') envVar = undefined
   return envVar
 }
 
@@ -689,4 +688,70 @@ export const getPairOptionsMap = <TOptions, TInputParameters extends BasePairInp
   }
 
   return includesOptionsMap
+}
+
+// Build list of values to censor in logs using the predefined list of sensitive env vars
+export const buildCensorList = (): void => {
+  const censorList: CensorKeyValue[] = []
+  configRedactEnvVars.forEach((envVar) => {
+    const value = process.env[envVar]
+    if (value) {
+      censorList.push({
+        key: envVar,
+        value: new RegExp(value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi'),
+      })
+    }
+  })
+  CensorList.set(censorList)
+}
+
+// Logs warnings based on env vars to properly inform of risks involved with using particular settings
+export const logEnvVarWarnings = (): void => {
+  if (
+    getEnv('LOG_LEVEL')?.toUpperCase() === 'DEBUG' ||
+    getEnv('LOG_LEVEL')?.toUpperCase() === 'TRACE'
+  ) {
+    logger.warn(
+      `LOG_LEVEL has been set to ${getEnv(
+        'LOG_LEVEL',
+      )?.toUpperCase()}. Setting higher log levels results in increased memory usage and potentially slower performance.`,
+    )
+  }
+  if (parseBool(getEnv('DEBUG')) === true) {
+    logger.warn(`The adapter is running with DEBUG mode on.`)
+  }
+  if (getEnv('NODE_ENV') === 'development') {
+    logger.warn(
+      `The adapter is running with NODE_ENV set to development. YOU SHOULD NOT BE RUNNING THIS IN PRODUCTION!`,
+    )
+  }
+  if (parseBool(getEnv('METRICS_ENABLED')) === false) {
+    logger.warn(
+      `METRICS_ENABLED has been set to ${getEnv(
+        'METRICS_ENABLED',
+      )}. Metrics should not be disabled in a production environment.`,
+    )
+  }
+  if (getEnv('MAX_PAYLOAD_SIZE_LIMIT') !== baseEnvDefaults.MAX_PAYLOAD_SIZE_LIMIT) {
+    logger.warn(
+      `MAX_PAYLOAD_SIZE_LIMIT has been set to ${process.env['MAX_PAYLOAD_SIZE_LIMIT']}. This setting should only be set when absolutely necessary.`,
+    )
+  }
+}
+
+// Method to validate env vars and throw error if conditions not met
+// Use for env vars that could be fatal if set incorrectly
+export const envVarValidations = (): void => {
+  const maxPayloadSize = parseInt(getEnv('MAX_PAYLOAD_SIZE_LIMIT') as string)
+  if (
+    maxPayloadSize < parseInt(baseEnvDefaults.MAX_PAYLOAD_SIZE_LIMIT) ||
+    maxPayloadSize > 1073741824
+  ) {
+    logger.fatal(
+      `MAX_PAYLOAD_SIZE_LIMIT set to ${maxPayloadSize}. MAX_PAYLOAD_SIZE_LIMIT must be set between 1048576 (1MB) and 1073741824 (1GB), inclusive`,
+    )
+    throw new Error(
+      'MAX_PAYLOAD_SIZE_LIMIT must be set between 1048576 (1MB) and 1073741824 (1GB), inclusive',
+    )
+  }
 }

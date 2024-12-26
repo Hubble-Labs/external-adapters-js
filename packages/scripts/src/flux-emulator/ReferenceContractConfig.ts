@@ -6,6 +6,10 @@ import console from 'console'
 import { AxiosRequestConfig } from 'axios'
 import { randomUUID } from 'crypto'
 
+const rddAliases: { [name: string]: string } = {
+  cvi: 'crypto-volatility-index',
+} as const
+
 // ReferenceContractConfig is the shape of reference data for a given data feed,
 // which includes the address of the feed, contract version, and the node operators (nodes)
 // that are being contracted for this feed.
@@ -20,14 +24,14 @@ export class ReferenceContractConfig {
   symbol: string
   path: string
   status: string
+  category: string
 
   constructor(input: Record<string, unknown>) {
-    const ValidationError = (param: string) => {
+    const ValidationError = (param: string) =>
       Error(`Contract config "${param}" param is missing or incorrect type`)
-    }
 
     if (typeof input?.name !== 'string') throw ValidationError('name')
-    else this.name = input.name
+    this.name = input.name
 
     if (typeof input?.contractVersion !== 'number') throw ValidationError('contractVersion')
     this.contractVersion = input.contractVersion
@@ -56,6 +60,9 @@ export class ReferenceContractConfig {
 
     if (typeof input?.status !== 'string') throw ValidationError('status')
     this.status = input.status
+
+    if (typeof input?.category !== 'string') throw ValidationError('category')
+    this.category = input.category
   }
 }
 
@@ -72,7 +79,7 @@ export class FeedNode {
     }
 
     if (typeof input?.name !== 'string') throw ValidationError('name')
-    else this.name = input.name
+    this.name = input.name
 
     if (typeof input?.address !== 'string') throw ValidationError('address')
     this.address = input.address
@@ -88,7 +95,7 @@ export class FeedNode {
 
 export interface ConfigPayload {
   name: string
-  data: Record<string, unknown>
+  data: Record<string, any>
 }
 
 export interface K6Payload {
@@ -103,7 +110,7 @@ export type ReferenceContractConfigResponse = {
 }
 
 type ApiResponse = Record<string, unknown>[]
-const MAX_REQUESTS = 5
+const MAX_REQUESTS = 3
 const REQUEST_TIMEOUT_MS = 5000
 const RETRY_BACKOFF = {
   resetOnSuccess: true,
@@ -122,14 +129,10 @@ export const fetchConfigFromUrl = (
 ): Observable<ReferenceContractConfigResponse> => {
   let requestAttempt = 0
 
-  return axios.get<ApiResponse>(configUrl, { timeout: REQUEST_TIMEOUT_MS }).pipe(
-    map((res: { data: Record<string, unknown>[] }) => {
-      const configs = parseConfig(res.data)
-      const ret: ReferenceContractConfigResponse = {
-        configs,
-      }
-      return ret
-    }),
+  return axios.get(configUrl, { timeout: REQUEST_TIMEOUT_MS }).pipe(
+    map((res: { data: ApiResponse }) => ({
+      configs: parseConfig(res.data),
+    })),
     catchError((err: Error) => {
       requestAttempt++
       console.error(`Error fetching config (${requestAttempt}/${MAX_REQUESTS}): ${err.message}`)
@@ -211,16 +214,31 @@ export const addAdapterToConfig = (
 ): ReferenceContractConfig[] => {
   for (const config of masterConfig) {
     for (const node of config.nodes) {
-      if (node.dataProviders.includes(adapterName)) {
+      for (const dataProvider of node.dataProviders) {
+        const [name, params] = dataProvider.split('?')
+        if (name !== adapterName && (!rddAliases[name] || rddAliases[name] !== adapterName))
+          continue
+
         // add adapter to the qaFeed
-        qaConfig = addAdapterToNode(config, node, qaConfig, ephemeralAdapterName)
+        if (!params) {
+          qaConfig = addAdapterToNode(config, node, qaConfig, ephemeralAdapterName)
+        } else {
+          const configWithParams = JSON.parse(JSON.stringify(config)) as ReferenceContractConfig
+          const paramsList = params.split('&')
+          configWithParams.name = `${configWithParams.name} ${paramsList.join(' ')}`
+          for (const param of paramsList) {
+            const [key, value] = param.split('=')
+            configWithParams.data[key] = value
+          }
+          qaConfig = addAdapterToNode(configWithParams, node, qaConfig, ephemeralAdapterName)
+        }
       }
     }
   }
   return qaConfig
 }
 
-const newConfigWithoutNodes = (feedConfig: ReferenceContractConfig): ReferenceContractConfig => {
+const newFeedWithoutNodes = (feedConfig: ReferenceContractConfig): ReferenceContractConfig => {
   const config: ReferenceContractConfig = { ...feedConfig }
   config.nodes = []
   return config
@@ -239,15 +257,15 @@ const addAdapterToNode = (
   ephemeralAdapterName: string,
 ): ReferenceContractConfig[] => {
   // find the feed in the qa config
-  let feedIndex: number = qaConfig.map((e) => e.name).indexOf(masterFeed.name)
+  let feedIndex: number = qaConfig.findIndex((e) => e.name === masterFeed.name)
   if (feedIndex < 0) {
     // add a feed with no nodes if a feed does not exist
-    qaConfig.push(newConfigWithoutNodes(masterFeed))
+    qaConfig.push(newFeedWithoutNodes(masterFeed))
     feedIndex = qaConfig.length - 1
   }
 
   // find the node in the qa config
-  let nodeIndex: number = qaConfig[feedIndex].nodes.map((e) => e.name).indexOf(masterNode.name)
+  let nodeIndex: number = qaConfig[feedIndex].nodes.findIndex((e) => e.name === masterNode.name)
   if (nodeIndex < 0) {
     // add a node with no data providers if a node does not exist
     qaConfig[feedIndex].nodes.push(newNodeWithoutAdapters(masterNode))
@@ -305,6 +323,28 @@ export const removeAdapterFromFeed = (
 }
 
 /**
+ * Converts the flux emulator config into a k6 payload
+ * @param {ConfigPayload[]} referenceConfig The configuration to convert to a k6 compatible payload
+ * @returns {K6Payload[]} The k6 compatible payload
+ */
+
+export const convertConfigToK6Payload = (referenceConfig: ConfigPayload[]): K6Payload[] => {
+  const id = randomUUID()
+
+  const payloads: K6Payload[] = []
+  for (const config of referenceConfig) {
+    const payload: K6Payload = {
+      name: config.name,
+      id,
+      method: 'POST',
+      data: JSON.stringify({ data: config.data }),
+    }
+    payloads.push(payload)
+  }
+  return payloads
+}
+
+/**
  * Return whether the adapter exists in the config or now
  * @param {string} adapterName The name of the adapter to look for
  * @param {ReferenceContractConfig[]} masterConfig The configuration to look for the adapter in
@@ -323,25 +363,4 @@ export const adapterExistsInConfig = (
     }
   }
   return false
-}
-
-/**
- * Converts the flux emulator config into a k6 payload
- * @param {ConfigPayload[]} referenceConfig The configuration to convert to a k6 compatible payload
- * @returns {K6Payload[]} The k6 compatible payload
- */
-export const convertConfigToK6Payload = (referenceConfig: ConfigPayload[]): K6Payload[] => {
-  const id = randomUUID()
-
-  const payloads: K6Payload[] = []
-  for (const config of referenceConfig) {
-    const payload: K6Payload = {
-      name: config.name,
-      id,
-      method: 'POST',
-      data: JSON.stringify({ data: config.data }),
-    }
-    payloads.push(payload)
-  }
-  return payloads
 }

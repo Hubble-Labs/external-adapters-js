@@ -1,33 +1,40 @@
 import {
-  AdapterImplementation,
-  Config,
-  AdapterResponse,
   AdapterContext,
+  AdapterImplementation as v2AdapterImplementation,
+  AdapterResponse,
+  Config,
+  Requester,
 } from '@chainlink/ea-bootstrap'
-import { Requester } from '@chainlink/ea-bootstrap'
-import { makeRequestFactory, callAdapter } from '.'
+import { callAdapter, makeRequestFactory } from '.'
 
 // protocol adapters
-import * as renVM from '@chainlink/renvm-address-set-adapter'
-import * as wBTC from '@chainlink/wbtc-address-set-adapter'
-import * as Gemini from '@chainlink/gemini-adapter'
 import * as celsiusAddressList from '@chainlink/celsius-address-list-adapter'
 import * as chainReserveWallets from '@chainlink/chain-reserve-wallet-adapter'
+import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
+import * as Gemini from '@chainlink/gemini-adapter'
+import { adapter as moonbeamAddressList } from '@chainlink/moonbeam-address-list-adapter'
+import * as porAddressList from '@chainlink/por-address-list-adapter'
+import * as renVM from '@chainlink/renvm-address-set-adapter'
+import { adapter as staderList } from '@chainlink/stader-address-list-adapter'
+import * as swellList from '@chainlink/swell-address-list-adapter'
+import * as wBTC from '@chainlink/wbtc-address-set-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 
 // TODO: consistent package exports
-export const adapters: AdapterImplementation[] = [
-  wBTC as unknown as AdapterImplementation,
-  renVM as unknown as AdapterImplementation,
-  Gemini as unknown as AdapterImplementation,
-  celsiusAddressList as unknown as AdapterImplementation,
-  chainReserveWallets as unknown as AdapterImplementation,
-  wrapped as unknown as AdapterImplementation,
+export const adaptersV2: v2AdapterImplementation[] = [
+  wBTC as unknown as v2AdapterImplementation,
+  renVM as unknown as v2AdapterImplementation,
+  Gemini as unknown as v2AdapterImplementation,
+  celsiusAddressList as unknown as v2AdapterImplementation,
+  chainReserveWallets as unknown as v2AdapterImplementation,
+  wrapped as unknown as v2AdapterImplementation,
+  swellList as unknown as v2AdapterImplementation,
+  porAddressList as unknown as v2AdapterImplementation,
 ]
 
-export type Protocol = typeof adapters[number]['NAME']
+export const adaptersV3: v3AdapterImplementation[] = [moonbeamAddressList, staderList]
 
 type AddressData = { token: string; chainId: string; network: string } | AddressList
 
@@ -41,7 +48,7 @@ type AddressObject = { address: string; network: string; chainId: string }
 export const runProtocolAdapter = async (
   jobRunID: string,
   context: AdapterContext,
-  protocol: Protocol,
+  protocol: string,
   data: AddressData,
   config: Config,
 ): Promise<AdapterResponse> => {

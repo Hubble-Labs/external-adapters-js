@@ -34,6 +34,14 @@ yarn setup
 
 Runs the setup step for all adapters. Typically this step just compiles TypeScript, but may involve other tasks.
 
+### Clean
+
+```sh
+yarn clean
+```
+
+Clears all build files/directories. Useful in case of issues when installing dependencies or running setup.
+
 ### Folder Structure
 
 ```
@@ -83,7 +91,7 @@ yarn start
 
 1. All of the external-adapters have a service that is created when the repo's docker-compose file is generated.
 
-This can be done by running the following command in the root of the repository:
+This can be done by running the following command in the root of the repository (after `yarn && yarn setup`):
 
 ```sh
 yarn generate:docker-compose
@@ -176,6 +184,8 @@ coincodex-adapter:
 ## Testing
 
 In order to test adapters locally, you may need to set environment variables such as `$API_KEY`. These can be found in the `README.md` for every adapter.
+
+When running integration tests make sure that metrics are disabled (`export METRICS_ENABLED=false`) and EA server is running on random available port (`export EA_PORT=0`).
 
 Make sure you run these commands from the ROOT of this monorepo.
 

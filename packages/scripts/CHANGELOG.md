@@ -1,5 +1,206 @@
 # @chainlink/ea-scripts
 
+## 2.6.0
+
+### Minor Changes
+
+- 9f7c9ac80: Remove legos
+
+## 2.5.8
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-factories@1.2.30
+
+## 2.5.7
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-factories@1.2.29
+
+## 2.5.6
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
+## 2.5.5
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-factories@1.2.28
+
+## 2.5.4
+
+### Patch Changes
+
+- bc8886c63: Bumped framework version
+
+## 2.5.3
+
+### Patch Changes
+
+- 37c0d8883: Bumped v3 framework version
+
+## 2.5.2
+
+### Patch Changes
+
+- be1c06256: Added outlier-detection to the soak test blacklist
+
+## 2.5.1
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-factories@1.2.27
+
+## 2.5.0
+
+### Minor Changes
+
+- 4f17877e6: Add notice of whether an EA is using V2 / V3 in their readmes
+
+## 2.4.29
+
+### Patch Changes
+
+- Updated dependencies [838c9d927]
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/ea-factories@1.2.26
+
+## 2.4.28
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-factories@1.2.25
+
+## 2.4.27
+
+### Patch Changes
+
+- b98296089: Bumped v3 framework version
+
+## 2.4.26
+
+### Patch Changes
+
+- 6d57b64a5: Tick framework version for ea-scripts
+
+## 2.4.25
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea-factories@1.2.24
+
+## 2.4.24
+
+### Patch Changes
+
+- 07781d25d: Bumped framework version
+
+## 2.4.23
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-factories@1.2.23
+
+## 2.4.22
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/ea-factories@1.2.22
+
+## 2.4.21
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/ea-factories@1.2.21
+
+## 2.4.20
+
+### Patch Changes
+
+- Updated dependencies [26b046b1e]
+  - @chainlink/ea-bootstrap@2.22.1
+  - @chainlink/ea-factories@1.2.20
+
+## 2.4.19
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/ea-factories@1.2.19
+
+## 2.4.18
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/ea-factories@1.2.18
+
+## 2.4.17
+
+### Patch Changes
+
+- Updated dependencies [b9982adc8]
+- Updated dependencies [f710272c6]
+- Updated dependencies [991fc76af]
+  - @chainlink/ea-bootstrap@2.20.0
+  - @chainlink/ea-factories@1.2.17
+
+## 2.4.16
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea-factories@1.2.16
+
+## 2.4.15
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-factories@1.2.15
+
+## 2.4.14
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/ea-factories@1.2.14
+
 ## 2.4.13
 
 ### Patch Changes

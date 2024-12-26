@@ -7,7 +7,6 @@ import {
   setFluxConfig,
   convertConfigToK6Payload,
   K6Payload,
-  adapterExistsInConfig,
 } from './ReferenceContractConfig'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
@@ -16,6 +15,7 @@ const exampleFeed = [
   {
     address: '0x0000000000000000000000000000000000000000',
     name: 'TEST / THIS',
+    category: 'test',
     contractVersion: 4,
     data: {
       from: 'TEST',
@@ -42,6 +42,7 @@ const exampleFeed = [
   {
     address: '0x0000000000000000000000000000000000000000',
     name: 'TEST2 / THIS2',
+    category: 'test',
     contractVersion: 4,
     data: {
       from: 'TEST2',
@@ -68,6 +69,7 @@ const exampleFeed = [
   {
     address: '0x0000000000000000000000000000000000000003',
     name: 'TEST3 / THIS3',
+    category: 'test',
     contractVersion: 4,
     data: {
       from: 'TEST3',
@@ -78,6 +80,28 @@ const exampleFeed = [
         name: 'nodeName',
         address: '0x0000000000000000000000000000000000000003',
         dataProviders: ['adapterName3'],
+      },
+    ],
+    precision: 18,
+    deviationThreshold: 2,
+    symbol: 'Ξ',
+    path: 'test-this',
+    status: 'live',
+  },
+  {
+    address: '0x0000000000000000000000000000000000000003',
+    name: 'TEST4 / THIS4',
+    category: 'test',
+    contractVersion: 4,
+    data: {
+      from: 'TEST4',
+      to: 'THIS4',
+    },
+    nodes: [
+      {
+        name: 'nodeName',
+        address: '0x0000000000000000000000000000000000000003',
+        dataProviders: ['compositeName4?source=sourceName4'],
       },
     ],
     precision: 18,
@@ -121,6 +145,27 @@ describe('flux emulator config editing', () => {
 
     // verify adding a second one works correctly
     config = addAdapterToConfig('adapterName1', 'ea-adapterName1', parseConfig(exampleFeed), config)
+    expect(config).toMatchSnapshot()
+  })
+
+  it('should add an adapter with params to a feed', async () => {
+    let config: ReferenceContractConfig[] = addAdapterToConfig(
+      'compositeName4',
+      'ea-compositeName4',
+      parseConfig(exampleFeed),
+      [],
+    )
+    // verify we can add one that doesn't exist
+    expect(config[0].nodes[0].dataProviders[0]).toMatch('ea-compositeName4')
+    expect(config).toMatchSnapshot()
+
+    // verify adding the same one again doesn't cause duplication
+    config = addAdapterToConfig(
+      'compositeName4',
+      'ea-compositeName4',
+      parseConfig(exampleFeed),
+      config,
+    )
     expect(config).toMatchSnapshot()
   })
 
@@ -188,16 +233,6 @@ describe('flux emulator config editing', () => {
     } catch (err) {
       expect(err).toMatchSnapshot()
     }
-  })
-
-  it('should return true when the adapter exists in the config', async () => {
-    const exists = adapterExistsInConfig('adapterName1', parseConfig(exampleFeed))
-    expect(exists).toEqual(true)
-  })
-
-  it('should return false when the adapter does not exist in the config', async () => {
-    const exists = adapterExistsInConfig('notanameintheconfig', parseConfig(exampleFeed))
-    expect(exists).toEqual(false)
   })
 
   it('should convert the config to a k6 payload', async () => {

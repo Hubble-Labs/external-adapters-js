@@ -1,8 +1,13 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import {
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+  Requester,
+  Validator,
+} from '@chainlink/ea-bootstrap'
 import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex']
+export const supportedEndpoints = ['price', 'crypto', 'stock', 'forex', 'uk_etf']
 
 const customError = (data: ResponseSchema) => data.status === 'error'
 
@@ -12,7 +17,7 @@ export const description =
 export type TInputParameters = { base: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
-    aliases: ['from', 'coin', 'market', 'symbol'],
+    aliases: ['from', 'coin', 'market', 'symbol', 'uk_etf'],
     required: true,
     description: 'The symbol of the currency to query',
     type: 'string',

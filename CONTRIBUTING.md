@@ -7,10 +7,13 @@ Thank you for your interest in improving the Chainlink External Adapter codebase
 1. [Creating A New Adapter](#Creating-A-New-Adapter)
 2. [Input](#Input)
 3. [Output](#Output)
-4. [Common Patterns](#Common-Patterns)
+4. [Adding Provider API Rate Limits](#Adding-Provider-API-Rate-Limits)
 5. [Mock Integration Testing](#Mock-Integration-Testing)
-6. [Soak Testing (Chainlink Labs)](<#Soak-Testing-(Chainlink-Labs)>)
-7. [Adding Provider API Rate Limits](#Adding-Provider-API-Rate-Limits)
+6. [Running Integration Tests](#Running-Integration-Tests)
+7. [Generating Changesets](#Generating-Changesets)
+8. [Common Patterns](#Common-Patterns)
+9. [Soak Testing (Chainlink Labs)](<#Soak-Testing-(Chainlink-Labs)>)
+10. [Logging Censorship](#logging-censorship)
 
 ## Creating A New Adapter
 
@@ -32,6 +35,8 @@ $ yarn new source my-new-adapter
 ```
 
 _If on a Mac, this requires `gnu-sed` to be installed and set as the default for the command `sed`._
+
+You can open a PR with the [New EA PR Template](./.github/PULL_REQUEST_TEMPLATE/new_ea_pr_template.md) by replacing `<branch>` in this URL: [https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md](https://github.com/smartcontractkit/external-adapters-js/compare/develop...<branch>?quick_pull=1&template=new_ea_pr_template.md)
 
 _Note - at the moment, adding a new adapter will also add the following lines to `tsconfig.json`:_
 
@@ -82,19 +87,9 @@ The External Adapter will do some processing, often request data from an API, an
   }
 ```
 
-## Common Patterns
+## Adding Provider API Rate Limits
 
-- Use [BigNumber](https://github.com/MikeMcl/bignumber.js/) when operating on large integers
-- Use [Decimal.js](https://github.com/MikeMcl/decimal.js/) for all floating point operations. `Decimal.js` uses a precision of 20 by default, but we may lose some precision with really large numbers, so please update to a higher precision before usage:
-
-```js
-Decimal.set({ precision: 100 })
-```
-
-- Handling "includes" in the request should be done with the following priority:
-  1. Full-featured "includes" array (in the format of [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
-  2. Pre-set includes from the EA (set in [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
-  3. String array as "includes"
+When adding a new adapter the tiers from that provider will need to be added to the [static configurations](packages/core/bootstrap/src/lib/provider-limits/limits.json) under the `NAME` given to the adapter.
 
 ## Mock Integration Testing
 
@@ -119,6 +114,33 @@ For example, take a look at the [synth-index](./packages/composites/synth-index/
 5. Finally, run your tests with recording disabled (`unset RECORD`). The WebSocket connection should be replaced and mocked.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).
+
+## Running Integration Tests
+
+When running integration tests (for example `yarn test packages/sources/binance/test/integration`) make sure that metrics are disabled (`export METRICS_ENABLED=false`) and EA server is running on random available port (`export EA_PORT=0`).
+
+## Generating Changesets
+
+When making changes to an adapter, a changeset should be added for each feature or bug fix introduced. For each "unit" of changes, follow these steps to determine the packages affected, the version upgrade, and finally the changelog text. If you make a mistake, simply delete the files created in `.changeset/` and try again:
+
+1. Run `yarn changeset` (from the root directory) to open a list of packages. You can filter packages by typing a string to match part of a package name (ex. type `coinm` to match `@chainlink/coinmarketcap-adapter` and `@chainlink/coinmetrics-adapter`). Use the `up` and `down` arrows to traverse the list and use `space` to select and unselect packages.
+2. After selecting all packages affected by your change, press `enter` to determine the version level change for each package. Use `up`, `down`, and `space` to select the packages for each level of change, using `enter` to move through each level. This starts with `Major`, then goes to `Minor`, then any remaining unselected packages will have `Patch` applied.
+3. In the final step, add a text summary that will be added to the `CHANGELOG.md` for every package when changesets are consumed.
+4. Once the files in `.changeset/` have been created, add them to your branch to include them in the final PR.
+
+## Common Patterns
+
+- Use [BigNumber](https://github.com/MikeMcl/bignumber.js/) when operating on large integers
+- Use [Decimal.js](https://github.com/MikeMcl/decimal.js/) for all floating point operations. `Decimal.js` uses a precision of 20 by default, but we may lose some precision with really large numbers, so please update to a higher precision before usage:
+
+```js
+Decimal.set({ precision: 100 })
+```
+
+- Handling "includes" in the request should be done with the following priority:
+  1. Full-featured "includes" array (in the format of [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
+  2. Pre-set includes from the EA (set in [presetIncludes.json](packages/core/bootstrap/src/lib/external-adapter/overrides/presetIncludes.json))
+  3. String array as "includes"
 
 ## Soak Testing (Chainlink Labs)
 
@@ -216,6 +238,59 @@ When you are done testing please remember to tear down any adapters and k6 deplo
 PR_NUMBER=${UNIQUE_NAME} ./packages/scripts/src/ephemeral-adapters/cleanup.sh
 ```
 
-## Adding Provider API Rate Limits
+### Output testing
 
-When adding a new adapter the tiers from that provider will need to be added to the [static configurations](packages/core/bootstrap/src/lib/provider-limits/limits.json) under the `NAME` given to the adapter.
+Soak testing additionally can test the responses output. The output testing runs against assertions placed in `./packages/k6/src/config/assertions`. Common assertions are in `assertions.json`, adapter-specific ones will be loaded from `${adapterName}-assertions.json`. Assertions can be applied for all the requests or specific set of parameters. See examples in the folder.
+
+The output testing checks the variety of input parameters, should be at least 10. For new adapters various parameters should be defined in `test-payload.json`.
+
+Input parameters in `test-payload.json` should include the following pairs:
+
+**High/low volume pairs**
+
+```
+[{"from": "OGN", "to": "ETH"}, {"from": "CSPR", "to": "USD"}, {"from": "CTSI", "to": "ETH"}, {"from": "BADGER", "to": "ETH"}, {"from": "BADGER", "to": "USD"}, {"from": "BSW", "to": "USD"}, {"from": "KNC", "to": "USD"}, {"from": "KNC", "to": "USD"}, {"from": "QUICK", "to": "ETH"}, {"from": "QUICK", "to": "USD"}, {"from": "FIS", "to": "USD"}, {"from": "MBOX", "to": "USD"}, {"from": "FOR", "to": "USD"}, {"from": "DGB", "to": "USD"}, {"from": "SUSD", "to": "ETH"}, {"from": "SUSD", "to": "USD"}, {"from": "WIN", "to": "USD"}, {"from": "SRM", "to": "ETH"}, {"from": "SRM", "to": "USD"}, {"from": "ALCX", "to": "ETH"}, {"from": "ALCX", "to": "USD"}, {"from": "ADX", "to": "USD"}, {"from": "NEXO", "to": "USD"}, {"from": "ANT", "to": "ETH"}, {"from": "ANT", "to": "USD"}, {"from": "LOOKS", "to": "USD"}, {"from": "WNXM", "to": "USD"}, {"from": "MDX", "to": "USD"}, {"from": "ALPHA", "to": "BNB"}, {"from": "ALPHA", "to": "USD"}, {"from": "NMR", "to": "ETH"}, {"from": "NMR", "to": "USD"}, {"from": "PHA", "to": "USD"}, {"from": "OHM", "to": "ETH"}, {"from": "BAL", "to": "ETH"}, {"from": "BAL", "to": "USD"}, {"from": "CVX", "to": "USD"}, {"from": "MOVR", "to": "USD"}, {"from": "DEGO", "to": "USD"}, {"from": "USDD", "to": "USD"}, {"from": "QI", "to": "USD"}, {"from": "MIM", "to": "USD"}, {"from": "KP3R", "to": "ETH"}, {"from": "REP", "to": "ETH"}, {"from": "REP", "to": "USD"}, {"from": "WING", "to": "USD"}, {"from": "XVS", "to": "BNB"}, {"from": "XVS", "to": "USD"}, {"from": "BOND", "to": "ETH"}, {"from": "BOND", "to": "USD"}, {"from": "REQ", "to": "USD"}, {"from": "LEO", "to": "USD"}, {"from": "ORN", "to": "ETH"}, {"from": "ALPACA", "to": "USD"}, {"from": "AGEUR", "to": "USD"}, {"from": "VAI", "to": "USD"}, {"from": "BIFI", "to": "USD"}, {"from": "AUTO", "to": "USD"}, {"from": "CEL", "to": "ETH"}, {"from": "CEL", "to": "USD"}, {"from": "HT", "to": "USD"}, {"from": "GLM", "to": "USD"}, {"from": "OM", "to": "USD"}, {"from": "BIT", "to": "USD"}, {"from": "ERN", "to": "USD"}, {"from": "PLA", "to": "USD"}, {"from": "FARM", "to": "ETH"}, {"from": "FARM", "to": "USD"}, {"from": "FORTH", "to": "USD"}, {"from": "OXT", "to": "USD"}, {"from": "MLN", "to": "ETH"}, {"from": "MLN", "to": "USD"}, {"from": "ONG", "to": "USD"}, {"from": "GUSD", "to": "ETH"}, {"from": "GUSD", "to": "USD"}, {"from": "DFI", "to": "USD"}, {"from": "SWAP", "to": "ETH"}, {"from": "ALUD", "to": "USD"}, {"from": "CREAM", "to": "BNB"}, {"from": "CREAM", "to": "USD"}, {"from": "GNO", "to": "ETH"}, {"from": "XAVA", "to": "USD"}, {"from": "BOO", "to": "USD"}, {"from": "AMPL", "to": "USD"}, {"from": "AMPL", "to": "USD"}, {"from": "RAI", "to": "ETH"}, {"from": "RAI", "to": "USD"}, {"from": "FEI", "to": "ETH"}, {"from": "FEI", "to": "USD"}, {"from": "DPX", "to": "USD"}, {"from": "EURT", "to": "USD"}, {"from": "LON", "to": "ETH"}, {"from": "BORING", "to": "BNB"}, {"from": "BORING", "to": "USD"}, {"from": "RARI", "to": "ETH"}, {"from": "DNT", "to": "ETH"}, {"from": "FOX", "to": "USD"}, {"from": "XHV", "to": "USD"}, {"from": "TRIBE", "to": "ETH"}, {"from": "UMEE", "to": "ETH"}, {"from": "UST", "to": "ETH"}, {"from": "UST", "to": "USD"}, {"from": "ZCN", "to": "USD"}, {"from": "DPI", "to": "USD"}]
+```
+
+**Collision risks**
+
+```
+[{"from": "MIM", "to": "USD"}, {"from": "LRC", "to": "USD"}, {"from": "OHM", "to": "USD"}, {"from": "QUICK", "to": "USD"}]
+```
+
+**Forex feeds**
+
+```
+[{"from": "AED", "to": "USD"}, {"from": "AUD", "to": "USD"}, {"from": "BRL", "to": "USD"}, {"from": "CAD", "to": "USD"}, {"from": "CHF", "to": "USD"}, {"from": "CNY", "to": "USD"}, {"from": "COP", "to": "USD"}, {"from": "CZK", "to": "USD"}, {"from": "EUR", "to": "USD"}, {"from": "GBP", "to": "USD"}, {"from": "HKD", "to": "USD"}, {"from": "IDR", "to": "USD"}, {"from": "ILS", "to": "USD"}, {"from": "INR", "to": "USD"}, {"from": "JPY", "to": "USD"}, {"from": "KRW", "to": "USD"}, {"from": "MXN", "to": "USD"}, {"from": "NZD", "to": "USD"}, {"from": "PHP", "to": "USD"}, {"from": "PLN", "to": "USD"}, {"from": "SEK", "to": "USD"}, {"from": "SGD", "to": "USD"}, {"from": "THB", "to": "USD"}, {"from": "TRY", "to": "USD"}, {"from": "TZS", "to": "USD"}, {"from": "VND", "to": "USD"}, {"from": "XAG", "to": "USD"}, {"from": "XAU", "to": "USD"}, {"from": "XPT", "to": "USD"}, {"from": "ZAR", "to": "USD"}, {"from": "ZEC", "to": "USD"}, {"from": "ZIL", "to": "USD"}, {"from": "ZRX", "to": "ETH"}, {"from": "ZRX", "to": "USD"}]
+```
+
+Available types of assertions:
+
+- `minPrecision` - minimum precision for a numeric value
+- `greaterThan` - minimum numeric value
+- `lessThan` - maximum numeric value
+- `minItems` - list contains at least the required number of items
+- `contains` - list contains a specific item (string or number)
+- `hasKey` - an object contains a specific key
+
+## Logging Censorship
+
+If you are introducing a new env var that contains sensitive data, ensure that it is added to our logging configurations to help censor it in the logs. Follow the steps below to do so.
+
+In the case that the env var's value it not altered by the adapter such as Base64 encoding, add the env var to the `configRedactEnvVars` list in packages/core/bootstrap/src/lib/config/logging.ts
+
+In the case that the env var's value is altered in the adapter prior to use, add the JSON path of the key containing the sensitive value (i.e. `config.api.apiKey`) to the `redactPaths` list in packages/core/bootstrap/src/lib/config/logging.ts
+
+As an example, the path `config.api.apiKey` would alter logs in the following way:
+
+```js
+{
+  "config": {
+    ...
+    "api": {
+      ...
+      "apiKey": "[REDACTED]"
+    }
+  }
+}
+```

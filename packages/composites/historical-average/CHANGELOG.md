@@ -1,5 +1,222 @@
 # @chainlink/historical-average-adapter
 
+## 1.2.39
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [c600ca386]
+- Updated dependencies [bfa201d6d]
+  - @chainlink/coinmarketcap-adapter@2.0.6
+  - @chainlink/ea-bootstrap@2.27.1
+
+## 1.2.38
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+- Updated dependencies [9bcb13c90]
+  - @chainlink/coinmarketcap-adapter@2.0.5
+
+## 1.2.37
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+- Updated dependencies [31af84e69]
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/coinmarketcap-adapter@2.0.4
+  - @chainlink/ea-bootstrap@2.27.0
+
+## 1.2.36
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+- Updated dependencies [77ad946a9]
+  - @chainlink/coinmarketcap-adapter@2.0.3
+
+## 1.2.35
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+- Updated dependencies [4245b4d8b]
+  - @chainlink/coinmarketcap-adapter@2.0.2
+
+## 1.2.34
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+- Updated dependencies [8fe5be225]
+  - @chainlink/coinmarketcap-adapter@2.0.1
+
+## 1.2.33
+
+### Patch Changes
+
+- Updated dependencies [0664ab1fd]
+  - @chainlink/coinmarketcap-adapter@2.0.0
+
+## 1.2.32
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/coinmarketcap-adapter@1.5.32
+
+## 1.2.31
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/coinmarketcap-adapter@1.5.31
+
+## 1.2.30
+
+### Patch Changes
+
+- Updated dependencies [e303dd766]
+  - @chainlink/coinmarketcap-adapter@1.5.30
+
+## 1.2.29
+
+### Patch Changes
+
+- Updated dependencies [838c9d927]
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/coinmarketcap-adapter@1.5.29
+
+## 1.2.28
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/coinmarketcap-adapter@1.5.28
+
+## 1.2.27
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/coinmarketcap-adapter@1.5.27
+
+## 1.2.26
+
+### Patch Changes
+
+- Updated dependencies [1f8c821c6]
+  - @chainlink/coinmarketcap-adapter@1.5.26
+
+## 1.2.25
+
+### Patch Changes
+
+- Updated dependencies [367e6c179]
+  - @chainlink/coinmarketcap-adapter@1.5.25
+
+## 1.2.24
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/coinmarketcap-adapter@1.5.24
+
+## 1.2.23
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+- Updated dependencies [315ae9384]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/coinmarketcap-adapter@1.5.23
+
+## 1.2.22
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/coinmarketcap-adapter@1.5.22
+
+## 1.2.21
+
+### Patch Changes
+
+- Updated dependencies [c242253f0]
+- Updated dependencies [26b046b1e]
+  - @chainlink/coinmarketcap-adapter@1.5.21
+  - @chainlink/ea-bootstrap@2.22.1
+
+## 1.2.20
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/coinmarketcap-adapter@1.5.20
+
+## 1.2.19
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/coinmarketcap-adapter@1.5.19
+
+## 1.2.18
+
+### Patch Changes
+
+- Updated dependencies [b9982adc8]
+- Updated dependencies [f710272c6]
+- Updated dependencies [991fc76af]
+  - @chainlink/ea-bootstrap@2.20.0
+  - @chainlink/coinmarketcap-adapter@1.5.18
+
+## 1.2.17
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [271cd9f73]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/coinmarketcap-adapter@1.5.17
+
+## 1.2.16
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/coinmarketcap-adapter@1.5.16
+
+## 1.2.15
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/coinmarketcap-adapter@1.5.15
+
 ## 1.2.14
 
 ### Patch Changes

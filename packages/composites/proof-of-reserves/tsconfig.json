@@ -12,6 +12,7 @@
     { "path": "../../core/test-helpers" },
     { "path": "../../sources/ada-balance" },
     { "path": "../../sources/amberdata" },
+    { "path": "../../sources/avalanche-platform" },
     { "path": "../../sources/blockchain.com" },
     { "path": "../../sources/blockchair" },
     { "path": "../../sources/blockcypher" },
@@ -26,6 +27,13 @@
     { "path": "../../sources/renvm-address-set" },
     { "path": "../../sources/sochain" },
     { "path": "../../sources/wbtc-address-set" },
-    { "path": "../../sources/wrapped" }
+    { "path": "../../sources/wrapped" },
+    { "path": "../../sources/eth-beacon" },
+    { "path": "../../sources/stader-address-list" },
+    { "path": "../../sources/stader-balance" },
+    { "path": "../../sources/swell-address-list" },
+    { "path": "../../sources/por-address-list" },
+    { "path": "../../sources/moonbeam-address-list" },
+    { "path": "../../sources/polkadot-balance" }
   ]
 }

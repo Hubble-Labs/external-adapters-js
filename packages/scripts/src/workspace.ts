@@ -1,19 +1,23 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { readFileSync } from 'fs'
+import fs, { readFileSync } from 'fs'
 import { join } from 'path'
 import * as s from 'shelljs'
 interface TsConfig {
   references: { path: string }[]
 }
-
 export interface WorkspacePackage {
-  tsconf: TsConfig | undefined
   location: string
   name: string
   descopedName: string
   type: string
+  version: string
+  framework: string
+}
+export interface WorkspaceAdapter extends WorkspacePackage {
+  tsconf: TsConfig | undefined
   environment: Record<string, string> | undefined
   version: string
+  framework: string
 }
 
 /**
@@ -28,25 +32,38 @@ export const PUBLIC_ADAPTER_TYPES = [
 ]
 const scope = '@chainlink/'
 
-export type WorkspacePackages = ReturnType<typeof getWorkspacePackages>
-export function getWorkspacePackages(additionalTypes: string[] = []): WorkspacePackage[] {
-  const adapterTypes = PUBLIC_ADAPTER_TYPES.concat(additionalTypes)
+export type WorkspacePackages = ReturnType<typeof getWorkspaceAdapters>
+export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[] {
   return s
-    .exec('yarn workspaces list --json', { silent: true })
+    .exec(
+      changedFromBranch
+        ? `yarn workspaces list -R --json --since=${changedFromBranch}`
+        : 'yarn workspaces list -R --json',
+      { silent: true },
+    )
     .split('\n')
     .filter(Boolean)
-    .map((v) => JSON.parse(v))
-    .map(({ location, name }: WorkspacePackage) => {
+    .map((v) => {
+      return JSON.parse(v)
+    })
+    .map(({ location, name }: WorkspaceAdapter) => {
       const pkg: { version: string } = getJsonFile(join(location, 'package.json'))
-
       return {
         location,
         name,
         descopedName: name.replace(scope, ''),
         type: location.split('/')[1],
         version: pkg.version,
+        framework: '2',
       }
     })
+}
+export function getWorkspaceAdapters(
+  additionalTypes: string[] = [],
+  changedFromBranch = '',
+): WorkspaceAdapter[] {
+  const adapterTypes = PUBLIC_ADAPTER_TYPES.concat(additionalTypes)
+  return getWorkspacePackages(changedFromBranch)
     .filter((v) => adapterTypes.includes(v.type))
     .map((p) => {
       let tsconf: TsConfig | undefined
@@ -57,10 +74,16 @@ export function getWorkspacePackages(additionalTypes: string[] = []): WorkspaceP
       }
 
       let environment: Record<string, string> | undefined
-      try {
-        environment = getJsonFile(join(p.location, 'schemas/env.json'))
-      } catch {
-        warnLog(`${join(p.location, 'schemas/env.json')} does not exist`)
+      const schemaPath = join(p.location, 'schemas/env.json')
+      if (fs.existsSync(schemaPath)) {
+        environment = getJsonFile(schemaPath)
+      } else if (p.type === 'sources' || p.type === 'composites') {
+        warnLog(
+          `Could not find env.json for ${p.descopedName}, but package is a source or composite adapter. Flagging EA as a framework adapter`,
+        )
+        p.framework = '3'
+      } else {
+        warnLog(`${schemaPath} does not exist`)
       }
 
       return { ...p, tsconf, environment }

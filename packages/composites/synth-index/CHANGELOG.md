@@ -1,5 +1,333 @@
 # @chainlink/synth-index-adapter
 
+## 1.2.58
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.15
+
+## 1.2.57
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.14
+
+## 1.2.56
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.13
+
+## 1.2.55
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.12
+
+## 1.2.54
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.11
+
+## 1.2.53
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.10
+
+## 1.2.52
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [c600ca386]
+- Updated dependencies [bfa201d6d]
+  - @chainlink/token-allocation-adapter@1.10.9
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.2.51
+
+### Patch Changes
+
+- Updated dependencies [9bcb13c90]
+  - @chainlink/token-allocation-adapter@1.10.8
+
+## 1.2.50
+
+### Patch Changes
+
+- Updated dependencies [31af84e69]
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/token-allocation-adapter@1.10.7
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.49
+
+### Patch Changes
+
+- Updated dependencies [77ad946a9]
+  - @chainlink/token-allocation-adapter@1.10.6
+
+## 1.2.48
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.5
+
+## 1.2.47
+
+### Patch Changes
+
+- Updated dependencies [4245b4d8b]
+  - @chainlink/token-allocation-adapter@1.10.4
+
+## 1.2.46
+
+### Patch Changes
+
+- Updated dependencies [8fe5be225]
+  - @chainlink/token-allocation-adapter@1.10.3
+
+## 1.2.45
+
+### Patch Changes
+
+- Updated dependencies [5916b71df]
+  - @chainlink/token-allocation-adapter@1.10.2
+
+## 1.2.44
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.10.1
+
+## 1.2.43
+
+### Patch Changes
+
+- Updated dependencies [fac3a3ce9]
+  - @chainlink/token-allocation-adapter@1.10.0
+
+## 1.2.42
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/token-allocation-adapter@1.9.8
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.2.41
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.7
+
+## 1.2.40
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.6
+
+## 1.2.39
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.5
+
+## 1.2.38
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.4
+
+## 1.2.37
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/token-allocation-adapter@1.9.3
+
+## 1.2.36
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.2
+
+## 1.2.35
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.9.1
+
+## 1.2.34
+
+### Patch Changes
+
+- Updated dependencies [6e9f97e33]
+  - @chainlink/token-allocation-adapter@1.9.0
+
+## 1.2.33
+
+### Patch Changes
+
+- Updated dependencies [cdc721ef3]
+- Updated dependencies [744685a78]
+- Updated dependencies [838c9d927]
+  - @chainlink/token-allocation-adapter@1.8.0
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.32
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.7.12
+
+## 1.2.31
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.7.11
+
+## 1.2.30
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.7.10
+
+## 1.2.29
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.7.9
+
+## 1.2.28
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.7.8
+
+## 1.2.27
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.7.7
+
+## 1.2.26
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.7.6
+
+## 1.2.25
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.7.5
+
+## 1.2.24
+
+### Patch Changes
+
+- Updated dependencies [26b046b1e]
+  - @chainlink/ea-bootstrap@2.22.1
+  - @chainlink/token-allocation-adapter@1.7.4
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.23
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.7.3
+
+## 1.2.22
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/token-allocation-adapter@1.7.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.21
+
+### Patch Changes
+
+- Updated dependencies [b9982adc8]
+- Updated dependencies [f710272c6]
+- Updated dependencies [991fc76af]
+  - @chainlink/ea-bootstrap@2.20.0
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.7.1
+
+## 1.2.20
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [63d34422f]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/token-allocation-adapter@1.7.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.2.19
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.6.4
+
+## 1.2.18
+
+### Patch Changes
+
+- @chainlink/token-allocation-adapter@1.6.3
+
+## 1.2.17
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/token-allocation-adapter@1.6.2
+
 ## 1.2.16
 
 ### Patch Changes

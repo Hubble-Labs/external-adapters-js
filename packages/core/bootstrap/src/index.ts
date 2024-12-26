@@ -34,11 +34,18 @@ import * as server from './lib/server'
 import { configureStore, serverShutdown } from './lib/store'
 import * as util from './lib/util'
 import { FastifyInstance } from 'fastify'
-
+import { register } from 'prom-client'
 export * from './types'
 
 const REDUX_MIDDLEWARE = ['burstLimit', 'cacheWarmer', 'errorBackoff', 'rateLimit', 'ws'] as const
-type ReduxMiddleware = typeof REDUX_MIDDLEWARE[number]
+type ReduxMiddleware = (typeof REDUX_MIDDLEWARE)[number]
+
+// Metrics are always registered when both v2 and the framework are invoked, causing duplicate registration unless cleared
+// The below is a workaround to avoid conflicts by clearing the register on import when METRICS_ENABLED is false
+// This workaround is (and must be) present in both v2 and the framework to avoid conflicts
+if (process.env['METRICS_ENABLED'] === 'false') {
+  register.clear()
+}
 
 const serverReducer = combineReducers({
   errorBackoff: ErrorBackoff.reducer.rootReducer,
@@ -66,11 +73,10 @@ export const initialState: RootState = {
 }
 
 // Initialize Redux store
-export const store = configureStore(
-  rootReducer as Reducer<RootState>,
-  { burstLimit: {}, cacheWarmer: {}, errorBackoff: {}, rateLimit: {}, ws: {} },
-  [CacheWarmer.epics.epicMiddleware, WebSocket.epics.epicMiddleware],
-)
+export const store = configureStore(rootReducer as Reducer<RootState>, initialState, [
+  CacheWarmer.epics.epicMiddleware,
+  WebSocket.epics.epicMiddleware,
+])
 
 // Run epics
 CacheWarmer.epics.epicMiddleware.run(CacheWarmer.epics.rootEpic)

@@ -34,17 +34,39 @@ import type {
   BatchableProperty,
 } from '../../types'
 
-type CustomError<T = unknown> = (data: T) => boolean
+export type CustomErrorReturnValue = boolean | string
+type CustomError<T = unknown> = (data: T) => CustomErrorReturnValue
 const defaultCustomError = () => false
 
 export class Requester {
+  // used to return consistent error messages when failing with or without a customError
+  static generateErrorMessage<T>(
+    config: AxiosRequestConfig,
+    response?: AxiosResponse<T>,
+    append?: string,
+    customErrorResult?: CustomErrorReturnValue,
+  ): string {
+    const { baseURL, url, data, params } = config // strip noisy and sensitive data from axios config before logging/including in the response
+
+    return (
+      `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides.` +
+      `${
+        customErrorResult && typeof customErrorResult === 'string'
+          ? ` Message: ${customErrorResult}.`
+          : ''
+      }` +
+      ` Request: ${JSON.stringify({ baseURL, url, data, params })},` +
+      ` Response: ${JSON.stringify(response?.data || {})}.` +
+      `${append ? ` ${append}` : ''}`
+    )
+  }
+
   static async request<T>(
     config: AxiosRequestConfig,
     customError = defaultCustomError as CustomError<T>,
     retries = Number(getEnv('RETRY')),
     delay = 1000,
   ): Promise<AxiosResponse<T>> {
-    if (typeof config === 'string') config = { url: config }
     if (typeof config.timeout === 'undefined') {
       const timeout = Number(getEnv('TIMEOUT'))
       config.timeout = !isNaN(timeout) ? timeout : 3000
@@ -86,7 +108,8 @@ export class Requester {
           })
         }
 
-        if (n === 1) {
+        if (n <= 1) {
+          // Exhausted retries, respond with an error
           const providerStatusCode = error?.response?.status ?? 0 // 0 -> connection error
           record(config.method, providerStatusCode)
           const errorInput = {
@@ -105,18 +128,20 @@ export class Requester {
         }
 
         return await _delayRetry(
-          `Caught error trying to fetch data from Data Provider. Retrying: ${JSON.stringify(
-            error.message,
-          )}`,
+          Requester.generateErrorMessage(config, error.response, error.message),
         )
       }
 
-      if (response.data && customError && customError(response.data)) {
-        // Response error
-        if (n === 1) {
-          const message = `Could not retrieve valid data from Data Provider. This is likely an issue with the Data Provider or the input params/overrides. Response: ${JSON.stringify(
-            response.data,
-          )}`
+      const customErrorResult = customError && customError(response.data) // customError is string | bool, consider it hit if true or defined
+      if (response.data && customErrorResult) {
+        const message = Requester.generateErrorMessage(
+          config,
+          response,
+          undefined,
+          customErrorResult,
+        )
+        if (n <= 1) {
+          // Exhausted retries, respond with an error
           const cause = (response.data as T & { error: Error | undefined }).error
           const providerStatusCode: number | undefined =
             (response.data as T & { error: { code: number } }).error?.code ?? response.status
@@ -132,10 +157,8 @@ export class Requester {
             ? new AdapterDataProviderError(errorPayload)
             : new AdapterCustomError(errorPayload)
         }
-
-        return await _delayRetry(
-          `Error in response from Data Provider. Retrying: ${JSON.stringify(response.data)}`,
-        )
+        // Dump the provider response and optionally a customError message to console, then retry
+        return await _delayRetry(message)
       }
 
       // Success
@@ -156,7 +179,7 @@ export class Requester {
   static validateResultNumber<T extends unknown>(
     data: T,
     path?: ResultPath,
-    options?: { inverse?: boolean },
+    options?: { inverse?: boolean; acceptZeroValue?: boolean },
     missingDataErrorMsg = 'Data provider response empty',
     missingResultsErrorMsg = 'Result could not be found in path or is empty. This is likely an issue with the data provider or the input params/overrides.',
   ): number {
@@ -181,7 +204,8 @@ export class Requester {
       })
     }
 
-    if (Number(result) === 0 || isNaN(Number(result))) {
+    const invalidZeroValue = !options?.acceptZeroValue && Number(result) === 0
+    if (invalidZeroValue || isNaN(Number(result))) {
       const message =
         'Invalid result received. This is likely an issue with the data provider or the input params/overrides.'
       logger.error(message, { data, path })

@@ -16,6 +16,7 @@ const exampleReferenceContractConfigResponse: ReferenceContractConfigResponse = 
       symbol: '',
       path: '',
       status: '',
+      category: '',
     },
   ],
 }
@@ -219,7 +220,7 @@ describe('Flux Emulator cli', () => {
     }
   })
 
-  it('should succesfully set the new config on stop', async () => {
+  it('should successfully set the new config on stop', async () => {
     await stop(exampleInputs)
   })
 

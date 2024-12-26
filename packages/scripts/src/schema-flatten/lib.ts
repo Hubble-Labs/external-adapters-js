@@ -1,8 +1,14 @@
+import $RefParser, { JSONSchema } from '@apidevtools/json-schema-ref-parser'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import {
+  BaseSettingsDefinition,
+  SettingsDefinitionMap,
+} from '@chainlink/external-adapter-framework/config'
 import { writeFileSync } from 'fs'
-import $RefParser from '@apidevtools/json-schema-ref-parser'
 import * as path from 'path'
+import process from 'process'
 import { snakeCase } from 'snake-case'
-import { getWorkspacePackages } from '../workspace'
+import { getWorkspaceAdapters } from '../workspace'
 import { collisionPackageTypeMap, forceRenameMap, getCollisionIgnoreMapFrom } from './config'
 
 export async function writeAllFlattenedSchemas(): Promise<void> {
@@ -27,7 +33,7 @@ export interface FlattenedSchema {
  */
 export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
   const resolve = createChainlinkLabsResolver()
-  const workspacePackages = getWorkspacePackages(['core'])
+  const workspacePackages = getWorkspaceAdapters(['core'])
   const bootstrapPackage = workspacePackages.find((p) => p.descopedName === 'ea-bootstrap')
   if (!bootstrapPackage) {
     throw Error('Could not find bootstrap package to generate collisionIgnoreMap')
@@ -38,15 +44,42 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
       .filter((p) => p.type !== 'core')
       .map(async (p) => {
         const { environment, location } = p
-        if (!environment) {
+        let schema: JSONSchema = {}
+
+        //If we encounter a framework version flag for framework, merge framework.BaseSettingsDefinition and adapter.CustomSettings into JSONSchema.properties
+        if (p.framework === '3') {
+          const { adapter } = (await import(
+            path.join(process.cwd(), p.location, 'dist', 'index.js')
+          )) as { adapter: Adapter }
+          const reduced: { [key: string]: any } = {}
+          const props = {
+            ...BaseSettingsDefinition,
+            ...(adapter.config as unknown as { definition: SettingsDefinitionMap }).definition,
+          }
+          Object.entries(props).forEach(([key, value]) => {
+            reduced[key] = {
+              type: value.type,
+              description: value.description,
+              default: 'default' in value ? value.default : undefined,
+              options: value.type === 'enum' ? value.options : undefined,
+            }
+          })
+          schema = {
+            ...schema,
+            $id: 'https://external-adapters.chainlinklabs.com/schemas/framework.json',
+            type: 'object',
+            properties: reduced,
+          }
+        } else if (environment) {
+          //Environment is undefined in v3, but should never be undefined in v2
+          schema = await new $RefParser().dereference(environment.$id, {
+            resolve,
+          })
+        } else {
           return
         }
-        const schema = await new $RefParser().dereference(environment.$id, {
-          resolve,
-        })
 
         const collisionIgnoreMap = getCollisionIgnoreMapFrom(bootstrapPackage)
-
         try {
           return {
             schema: flattenAllOf(
@@ -74,7 +107,7 @@ export async function flattenAllSchemas(): Promise<FlattenedSchema[]> {
  * @returns Resolver for chainlink labs schemas
  */
 function createChainlinkLabsResolver() {
-  const schemas = getWorkspacePackages(['core'])
+  const schemas = getWorkspaceAdapters(['core'])
     .map((p) => p.environment)
     .filter((schema): schema is Record<string, string> => !!schema)
 

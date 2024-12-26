@@ -1,7 +1,13 @@
+import { balance } from '@chainlink/ea-factories'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
+import { InputParameters as V3InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { InputParametersDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import fs from 'fs'
 import path from 'path'
 import process from 'process'
 import { cat, exec, test } from 'shelljs'
-import { buildTable, TableText } from '../shared/tableUtils'
+import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
 import {
   capitalize,
   codeList,
@@ -10,9 +16,9 @@ import {
   wrapCode,
   wrapJson,
 } from '../shared/docGenUtils'
-import { balance } from '@chainlink/ea-factories'
+import { TableText, buildTable } from '../shared/tableUtils'
+import { WorkspaceAdapter } from '../workspace'
 import { getBalanceTable, inputParamHeaders, paramHeaders } from './tableAssets'
-import { EndpointDetails, EnvVars, IOMap, JsonObject, Package, Schema } from '../shared/docGenTypes'
 
 const testEnvOverrides = {
   API_VERBOSE: 'true',
@@ -29,7 +35,7 @@ const TRUNCATE_EXAMPLE_LINES = 500
 const genSig =
   'This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.'
 
-const exampleTextHeader = '### Example\n'
+const exampleTextHeader = '### Example\n\n'
 
 const noExampleText = 'There are no examples for this endpoint.'
 
@@ -43,6 +49,9 @@ const checkFilePaths = (filePaths: string[]): string => {
 export class ReadmeGenerator {
   schemaDescription: string
   adapterPath: string
+  adapterType: string
+  schemaPath: string
+  packageJson: Package
   defaultEndpoint = ''
   defaultBaseUrl = ''
   endpointDetails: EndpointDetails = {}
@@ -56,53 +65,96 @@ export class ReadmeGenerator {
   version: string
   versionBadgeUrl: string
   license: string
+  frameworkVersion: 'v2' | 'v3'
+  frameworkVersionBadgeUrl: string
 
-  constructor(adapterPath: string, verbose = false, skipTests = false) {
+  constructor(adapter: WorkspaceAdapter, verbose = false, skipTests = false) {
     this.verbose = verbose
+    this.adapterPath = adapter.location
 
-    if (!adapterPath.endsWith('/')) adapterPath += '/'
-
-    if (!test('-d', adapterPath)) throw Error(`${adapterPath} is not a directory`)
-
-    if (verbose) console.log(`${adapterPath}: Checking package.json`)
-
-    const packagePath = checkFilePaths([adapterPath + 'package.json'])
+    if (!this.adapterPath.endsWith('/')) this.adapterPath += '/'
+    if (!test('-d', this.adapterPath)) throw Error(`${this.adapterPath} is not a directory`)
+    if (verbose) console.log(`${this.adapterPath}: Checking package.json`)
+    const packagePath = checkFilePaths([this.adapterPath + 'package.json'])
     const packageJson = getJsonFile(packagePath) as Package
+
+    if (packageJson.dependencies) {
+      this.frameworkVersion = packageJson.dependencies['@chainlink/external-adapter-framework']
+        ? 'v3'
+        : 'v2'
+    }
+
     this.version = packageJson.version ?? ''
     this.versionBadgeUrl = `https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=${packagePath}`
+    this.frameworkVersionBadgeUrl = `https://img.shields.io/badge/framework%20version-${this.frameworkVersion}-blueviolet`
     this.license = packageJson.license ?? ''
 
-    if (verbose) console.log(`${adapterPath}: Checking schema/env.json`)
-
-    const schemaPath = checkFilePaths([adapterPath + 'schemas/env.json'])
-    const schema = getJsonFile(schemaPath) as Schema
-    this.schemaDescription = schema.description ?? ''
-    this.name = schema.title ?? packageJson.name ?? ''
-    this.envVars = schema.properties ?? {}
-    this.requiredEnvVars = schema.required ?? []
-
-    this.adapterPath = adapterPath
+    this.schemaPath = this.adapterPath + 'schemas/env.json'
+    this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
+    this.packageJson = packageJson
     this.skipTests = skipTests
-    this.integrationTestPath = adapterPath + 'test/integration/*.test.ts'
   }
 
-  async fetchImports(): Promise<void> {
-    // Fetch imports as separate step, since dynamic imports are async but constructor can't contain async code
+  // We need to require/import adapter contents to generate the README.
+  // We use this function instead of the constructor because we need to fetch, and constructors can't be async.
+  async loadAdapterContent(): Promise<void> {
+    if (fs.existsSync(this.schemaPath)) {
+      const configPath = checkFilePaths([
+        this.adapterPath + 'src/config.ts',
+        this.adapterPath + 'src/config/index.ts',
+      ])
+      const configFile = await require(path.join(process.cwd(), configPath))
 
-    if (this.verbose) console.log(`${this.adapterPath}: Importing src/config/index.ts`)
+      //Is V2. Populate self w/ env.json content
+      if (this.verbose) console.log(`${this.adapterPath}: Checking schema/env.json`)
+      const schema = getJsonFile(this.schemaPath) as Schema
+      this.frameworkVersion = 'v2'
+      this.schemaDescription = schema.description ?? ''
+      this.name = schema.title ?? this.packageJson.name ?? ''
+      this.envVars = schema.properties ?? {}
+      this.requiredEnvVars = schema.required ?? []
+      this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
+      this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
 
-    const configPath = checkFilePaths([
-      this.adapterPath + 'src/config.ts',
-      this.adapterPath + 'src/config/index.ts',
-    ])
-    const configFile = await require(path.join(process.cwd(), configPath))
-    this.defaultEndpoint = configFile.DEFAULT_ENDPOINT
-    this.defaultBaseUrl = configFile.DEFAULT_BASE_URL || configFile.DEFAULT_WS_API_ENDPOINT
+      if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
+      const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
+      this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
+    } else {
+      this.frameworkVersion = 'v3'
+      if (this.verbose)
+        console.log(`${this.adapterPath}: Importing framework adapter to read properties`)
 
-    if (this.verbose) console.log(`${this.adapterPath}: Importing src/endpoint/index.ts`)
+      //Framework adapters don't use env.json. Instead, populate "schema" with import
+      const adapterImport = await import(
+        path.join(process.cwd(), this.adapterPath, 'dist', 'index.js')
+      )
 
-    const endpointPath = checkFilePaths([this.adapterPath + 'src/endpoint/index.ts'])
-    this.endpointDetails = await require(path.join(process.cwd(), endpointPath))
+      const adapter = adapterImport.adapter as Adapter
+      const adapterSettings = (
+        adapter.config as unknown as { settingsDefinition: SettingsDefinitionMap }
+      ).settingsDefinition
+      this.name = adapter.name
+      this.envVars = adapterSettings || {}
+
+      this.endpointDetails = adapter.endpoints?.length
+        ? adapter.endpoints.reduce(
+            (accumulator, endpoint) =>
+              Object.assign(accumulator, {
+                [endpoint.name]: {
+                  ...endpoint,
+                  supportedEndpoints: [endpoint.name, ...(endpoint.aliases || [])],
+                },
+              }),
+            {},
+          )
+        : {}
+
+      this.requiredEnvVars = adapterSettings
+        ? Object.keys(adapterSettings).filter((k) => adapterSettings[k].required === true) ?? [] // Keys of required customSettings
+        : []
+      //Note, not populating description, doesn't exist in framework adapters
+      this.defaultEndpoint = adapter.defaultEndpoint ?? ''
+    }
   }
 
   buildReadme(): void {
@@ -119,8 +171,7 @@ export class ReadmeGenerator {
 
   addIntroSection(): void {
     if (this.verbose) console.log(`${this.adapterPath}: Adding title and version`)
-
-    this.readmeText = `# ${this.name}\n\n![${this.version}](${this.versionBadgeUrl})\n\n`
+    this.readmeText = `# ${this.name}\n\n![${this.version}](${this.versionBadgeUrl}) ![${this.frameworkVersion}](${this.frameworkVersionBadgeUrl})\n\n`
     if (this.schemaDescription) this.readmeText += `${this.schemaDescription}\n\n`
     if (this.defaultBaseUrl) {
       this.readmeText += `Base URL ${this.defaultBaseUrl}\n\n`
@@ -138,7 +189,7 @@ export class ReadmeGenerator {
       const name = key ?? ''
       const description = envVar.description ?? ''
       const type = envVar.type ?? ''
-      const options = codeList(envVar.options)
+      const options = codeList(envVar.options as Array<string | number>)
       const defaultText = Object.keys(envVar).includes('default') ? wrapCode(envVar.default) : ''
       return [required, name, description, type, options, defaultText]
     })
@@ -154,6 +205,7 @@ export class ReadmeGenerator {
     if (this.verbose) console.log(`${this.adapterPath}: Adding input parameters`)
 
     const endpointList = Object.keys(this.endpointDetails).reduce((list: string[], e) => {
+      // supportedEndpoints is not a v3 field, but is populated by a conversion function in fetchImports for v3 adapters
       const { supportedEndpoints = [] } = this.endpointDetails[e]
       for (const supportedEndpoint of supportedEndpoints) {
         list.push(`[${supportedEndpoint}](#${e.toLowerCase()}-endpoint)`)
@@ -176,13 +228,56 @@ export class ReadmeGenerator {
       ? buildTable(tableText, paramHeaders)
       : 'There are no input parameters for this adapter.'
 
-    this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
+    if (this.frameworkVersion === 'v3') {
+      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](https://github.com/smartcontractkit/ea-framework-js/blob/main/src/config/index.ts)\n\n${inputParamTable}\n\n`
+    } else {
+      this.readmeText += `## Input Parameters\n\nEvery EA supports base input parameters from [this list](../../core/bootstrap#base-input-parameters)\n\n${inputParamTable}\n\n`
+    }
+  }
+
+  buildV3InputParamsTable(definition: InputParametersDefinition, path: string[] = []): TableText {
+    const text: TableText = []
+
+    for (const [param, attributes] of Object.entries(definition)) {
+      // In order
+      const requiredIcon = attributes.required ? '✅' : ''
+      const name = [...path, param].join('.')
+      const aliases = attributes.aliases ? codeList(attributes.aliases as string[]) : ''
+      const description = attributes.description
+      const type =
+        (typeof attributes.type === 'object' ? 'object' : attributes.type) +
+        (attributes.array ? '[]' : '')
+      const options = attributes.options ? codeList(attributes.options as string[]) : ''
+      const defaultText = attributes.default ? wrapCode(attributes.default) : ''
+      const dependsOn = attributes.dependsOn ? codeList(attributes.dependsOn as string[]) : ''
+      const exclusive = attributes.exclusive ? codeList(attributes.exclusive as string[]) : ''
+
+      text.push([
+        requiredIcon,
+        name,
+        aliases,
+        description,
+        type,
+        options,
+        defaultText,
+        dependsOn,
+        exclusive,
+      ])
+
+      // If the type is a nested definition, add all those params with the current path as a prefix
+      if (typeof attributes.type === 'object') {
+        text.push(...this.buildV3InputParamsTable(attributes.type, [...path, param]))
+      }
+    }
+
+    return text
   }
 
   addEndpointSections(): void {
     // Store I/O Examples for each endpoint
     const endpointExampleText: { [endpoint: string]: string } = {}
-    if (this.skipTests) {
+    // V3 does not print the same debug output used to generate these
+    if (this.skipTests || this.frameworkVersion === 'v3') {
       // If skipping tests, pull from existing README
       if (this.verbose)
         console.log(`${this.adapterPath}: Pulling I/O examples from existing README`)
@@ -240,7 +335,7 @@ export class ReadmeGenerator {
 
       // Build final text for examples
       for (const [endpointName, endpointDetails] of Object.entries(this.endpointDetails)) {
-        const ioExamples = []
+        const ioExamples: string[] = []
 
         for (const endpoint of endpointDetails.supportedEndpoints) {
           for (const ioPair of endpointIO[endpoint] ?? []) {
@@ -293,55 +388,64 @@ export class ReadmeGenerator {
         if (endpointDetails.inputParameters === balance.inputParameters) {
           inputTable = getBalanceTable()
         } else {
-          const inputTableText: TableText = Object.entries(endpointDetails.inputParameters).map(
-            ([param, attributes]) => {
-              const name = param ?? ''
+          let inputTableText: TableText
+          if (endpointDetails.inputParameters instanceof V3InputParameters) {
+            inputTableText = this.buildV3InputParamsTable(
+              endpointDetails.inputParameters.definition,
+            )
+          } else {
+            inputTableText = Object.entries(endpointDetails.inputParameters).map(
+              ([param, attributes]) => {
+                const name = param ?? ''
 
-              let requiredIcon = ''
-              let aliases = ''
-              let description = ''
-              let type = ''
-              let options = ''
-              let defaultText = ''
-              let dependsOn = ''
-              let exclusive = ''
+                let requiredIcon = ''
+                let aliases = ''
+                let description = ''
+                let type = ''
+                let options = ''
+                let defaultText = ''
+                let dependsOn = ''
+                let exclusive = ''
 
-              if (typeof attributes === 'boolean') {
-                requiredIcon = attributes ? '✅' : ''
-              } else if (Array.isArray(attributes)) {
-                requiredIcon = '✅'
-                aliases = codeList(attributes)
-              } else {
-                // InputParameter config
-                requiredIcon = attributes.required ? '✅' : ''
-                aliases = codeList(attributes.aliases)
-                description = attributes.description ?? ''
-                type = attributes.type ?? ''
-                options = codeList(attributes.options)
-                defaultText = attributes.default ? wrapCode(attributes.default) : ''
-                dependsOn = codeList(attributes.dependsOn)
-                exclusive = codeList(attributes.exclusive)
-              }
-              return [
-                requiredIcon,
-                name,
-                aliases,
-                description,
-                type,
-                options,
-                defaultText,
-                dependsOn,
-                exclusive,
-              ]
-            },
-          )
+                if (typeof attributes === 'boolean') {
+                  requiredIcon = attributes ? '✅' : ''
+                } else if (Array.isArray(attributes)) {
+                  requiredIcon = '✅'
+                  aliases = codeList(attributes)
+                } else {
+                  // InputParameter config
+                  requiredIcon = attributes.required ? '✅' : ''
+                  aliases = codeList(attributes.aliases)
+                  description = attributes.description ?? ''
+                  type = attributes.type ?? ''
+                  options = codeList(attributes.options as Array<string | number>)
+                  defaultText = attributes.default
+                    ? wrapCode(attributes.default as string | number | boolean)
+                    : ''
+                  dependsOn = codeList(attributes.dependsOn)
+                  exclusive = codeList(attributes.exclusive)
+                }
+                return [
+                  requiredIcon,
+                  name,
+                  aliases,
+                  description,
+                  type,
+                  options,
+                  defaultText,
+                  dependsOn,
+                  exclusive,
+                ]
+              },
+            )
+          }
 
           inputTable = inputTableText.length
             ? buildTable(inputTableText, inputParamHeaders)
             : 'There are no input parameters for this endpoint.'
         }
 
-        const inputTableSection = '### Input Params\n' + inputTable
+        const inputTableSection = '### Input Params\n\n' + inputTable
 
         const exampleText = endpointExampleText[endpointName]
 
@@ -349,12 +453,12 @@ export class ReadmeGenerator {
       })
       .join('\n\n---\n\n')
 
-    this.readmeText += endpointSections + '\n\n---\n'
+    this.readmeText += endpointSections + '\n\n---\n\n'
   }
 
   addLicense(): void {
     if (this.license) {
-      this.readmeText += `${this.license} License \n`
+      this.readmeText += `${this.license} License\n`
     }
   }
 

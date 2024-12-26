@@ -1,5 +1,221 @@
 # @chainlink/ncfx-adapter
 
+## 3.3.1
+
+### Patch Changes
+
+- b7dba0ae2: Normalize crypto-lwba endpoint aliases for Mercury adapters
+
+## 3.3.0
+
+### Minor Changes
+
+- 2ccb976bf: Normalize crypto-lwba response formats
+- eb498a913: Normalize crypto-lwba endpoint names
+
+## 3.2.9
+
+### Patch Changes
+
+- bfa201d6d: Bumped framework version
+- bfa201d6d: Bumped framework version
+- c600ca386: Upgrade typescript version to 5.0.4
+- bfa201d6d: Bumped framework version
+
+## 3.2.8
+
+### Patch Changes
+
+- 9bcb13c90: Bumped framework version
+
+## 3.2.7
+
+### Patch Changes
+
+- 31af84e69: Bumped framework version
+
+## 3.2.6
+
+### Patch Changes
+
+- 77ad946a9: Bumped framework version
+
+## 3.2.5
+
+### Patch Changes
+
+- 4245b4d8b: Bumped framework version
+
+## 3.2.4
+
+### Patch Changes
+
+- 8fe5be225: Bumped framework version
+
+## 3.2.3
+
+### Patch Changes
+
+- c9cee149e: Bump fw version
+
+## 3.2.2
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
+## 3.2.1
+
+### Patch Changes
+
+- bc8886c63: Bumped framework version
+
+## 3.2.0
+
+### Minor Changes
+
+- 5d20d2ece: Return bid & ask price fields
+
+## 3.1.1
+
+### Patch Changes
+
+- 37c0d8883: Bumped v3 framework version
+
+## 3.1.0
+
+### Minor Changes
+
+- d474a5553: Update v3 framework to latest version
+
+## 3.0.3
+
+### Patch Changes
+
+- 2bcd794a2: Remove previous typo from NCFX EA
+- 65014014d: Bumped v3 framework version. Upgraded typescript to version 4.9.5
+
+## 3.0.2
+
+### Patch Changes
+
+- 3dd345367: Fixed inverses issue. Bumped v3 framework version.
+
+## 3.0.1
+
+### Patch Changes
+
+- 4bade45ad: Fixed crypto websocket expected connection message
+
+## 3.0.0
+
+### Major Changes
+
+- cdc721ef3: Upgraded NCFX adapter from v2 to v3. Updated NCFX crypto endpoint to use new WS API
+
+## 2.1.15
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.14
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.13
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.12
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.11
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.10
+
+### Patch Changes
+
+- Updated dependencies [26b046b1e]
+  - @chainlink/ea-bootstrap@2.22.1
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.9
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.8
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.7
+
+### Patch Changes
+
+- Updated dependencies [b9982adc8]
+- Updated dependencies [f710272c6]
+- Updated dependencies [991fc76af]
+  - @chainlink/ea-bootstrap@2.20.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.6
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.5
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 2.1.4
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 2.1.3
 
 ### Patch Changes

@@ -1,32 +1,41 @@
-import { Validator } from '@chainlink/ea-bootstrap'
-import { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { totalBurned } from '.'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import {
+  BurnedResponseSchema,
+  TotalBurnedTransport,
+  baseInputParametersDefinition,
+} from './total-burned'
 
-export const supportedEndpoints = ['burned']
-
-export const description = `Endpoint to calculate the number of burned coins/tokens for an asset either on the previous day or on the previous block.
-This endpoint requires that the asset has the following metrics available: \`FeeTotNtv\`, \`RevNtv\` and \`IssTotNtv\`.`
-
-export type TInputParameters = { asset: string; frequency: string }
-export const inputParameters: InputParameters<TInputParameters> = {
-  asset: {
+const inputParameters = new InputParameters({
+  ...baseInputParametersDefinition,
+  startTime: {
     description:
-      'The symbol of the currency to query. See [Coin Metrics Assets](https://docs.coinmetrics.io/info/assets)',
-    type: 'string',
-    required: true,
-  },
-  frequency: {
-    description: 'At which interval to calculate the number of coins/tokens burned',
+      'The start time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
     type: 'string',
     required: false,
   },
+  endTime: {
+    description:
+      'The end time for the queried period. See [Supported DateTime Formats](#supported-datetime-formats)',
+    type: 'string',
+    required: false,
+  },
+})
+
+export type EndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
+  Response: SingleNumberResultResponse
+  Provider: {
+    RequestBody: never
+    ResponseBody: BurnedResponseSchema
+  }
 }
 
-export const execute: ExecuteWithConfig<Config> = async (request, context, config) => {
-  new Validator(request, inputParameters)
-
-  request.data.pageSize = 1
-  request.data.isBurnedEndpointMode = true
-
-  return totalBurned.execute(request, context, config)
-}
+export const endpoint = new AdapterEndpoint<EndpointTypes>({
+  name: 'burned',
+  transport: new TotalBurnedTransport<EndpointTypes>(),
+  inputParameters,
+})

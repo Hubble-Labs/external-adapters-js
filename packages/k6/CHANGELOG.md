@@ -1,5 +1,29 @@
 # k6
 
+## 2.5.3
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+
+## 2.5.2
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+
+## 2.5.1
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+
+## 2.5.0
+
+### Minor Changes
+
+- b07c1e7d1: Support to run k6 against multiple EAs
+
 ## 2.4.0
 
 ### Minor Changes

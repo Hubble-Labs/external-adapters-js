@@ -22,3 +22,11 @@ coverage
 cl-adapter-*
 packages/k6/src/config/ws.json
 packages/k6/src/config/http.json
+
+# IDE metadata
+.vscode
+.idea
+
+# Secrets
+.envrc
+.env

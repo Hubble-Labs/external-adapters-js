@@ -1,7 +1,8 @@
-import { Requester, util, Validator } from '@chainlink/ea-bootstrap'
-import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
+import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util } from '@chainlink/ea-bootstrap'
+import { NAME as AdapterName } from '../config'
 
-export const supportedEndpoints = ['price', 'stock']
+export const supportedEndpoints = ['price', 'stock', 'uk_etf']
 
 export const description =
   '**NOTE: the `price` endpoint is temporarily still supported, however, is being deprecated. Please use the `stock` endpoint instead.**'
@@ -10,7 +11,7 @@ export type TInputParameters = { base: string }
 export const inputParameters: InputParameters<TInputParameters> = {
   base: {
     required: true,
-    aliases: ['asset', 'from', 'symbol'],
+    aliases: ['asset', 'from', 'symbol', 'uk_etf'],
     type: 'string',
     description:
       'The symbol of the currency to query taken from [here](https://eodhistoricaldata.com/financial-apis/category/data-feeds/)',
@@ -41,7 +42,7 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const validator = new Validator(request, inputParameters)
 
   const jobRunID = validator.validated.id
-  let symbol = validator.validated.data.base.toUpperCase()
+  let symbol = validator.overrideSymbol(AdapterName, validator.validated.data.base).toUpperCase()
   if (commonKeys[symbol]) {
     symbol = commonKeys[symbol]
   }

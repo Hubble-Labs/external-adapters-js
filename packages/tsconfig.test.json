@@ -15,9 +15,6 @@
       "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
     },
     {
-      "path": "./composites/bob/tsconfig.test.json"
-    },
-    {
       "path": "./composites/bsol-price/tsconfig.test.json"
     },
     {
@@ -78,6 +75,9 @@
       "path": "./composites/reference-transform/tsconfig.test.json"
     },
     {
+      "path": "./composites/rocket-pool/tsconfig.test.json"
+    },
+    {
       "path": "./composites/savax-price/tsconfig.test.json"
     },
     {
@@ -90,9 +90,6 @@
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
-      "path": "./non-deployable/token-allocation/tsconfig.test.json"
-    },
-    {
       "path": "./composites/vesper/tsconfig.test.json"
     },
     {
@@ -100,9 +97,6 @@
     },
     {
       "path": "./core/factories/tsconfig.test.json"
-    },
-    {
-      "path": "./core/legos/tsconfig.test.json"
     },
     {
       "path": "./core/reference-data-reader/tsconfig.test.json"
@@ -117,10 +111,13 @@
       "path": "./examples/source/tsconfig.test.json"
     },
     {
-      "path": "./scripts/tsconfig.test.json"
+      "path": "./non-deployable/reduce/tsconfig.test.json"
     },
     {
-      "path": "./scripts/src/generate-readme/test/integration/readme-test-adapter/tsconfig.test.json"
+      "path": "./non-deployable/token-allocation/tsconfig.test.json"
+    },
+    {
+      "path": "./scripts/tsconfig.test.json"
     },
     {
       "path": "./sources/1forge/tsconfig.test.json"
@@ -132,10 +129,16 @@
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
+      "path": "./sources/alongside/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
       "path": "./sources/alphavantage/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/alphavantage-test/tsconfig.test.json"
     },
     {
       "path": "./sources/alpine/tsconfig.test.json"
@@ -151,6 +154,9 @@
     },
     {
       "path": "./sources/armanino/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/avalanche-platform/tsconfig.test.json"
     },
     {
       "path": "./sources/bank-frick/tsconfig.test.json"
@@ -184,6 +190,9 @@
     },
     {
       "path": "./sources/blockstream/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/bob/tsconfig.test.json"
     },
     {
       "path": "./sources/bravenewcoin/tsconfig.test.json"
@@ -261,6 +270,9 @@
       "path": "./sources/curve/tsconfig.test.json"
     },
     {
+      "path": "./sources/dar/tsconfig.test.json"
+    },
+    {
       "path": "./sources/deribit/tsconfig.test.json"
     },
     {
@@ -276,6 +288,9 @@
       "path": "./sources/dxfeed-secondary/tsconfig.test.json"
     },
     {
+      "path": "./sources/elwood/tsconfig.test.json"
+    },
+    {
       "path": "./sources/ens/tsconfig.test.json"
     },
     {
@@ -286,6 +301,9 @@
     },
     {
       "path": "./sources/eth-balance/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/eth-beacon/tsconfig.test.json"
     },
     {
       "path": "./sources/etherchain/tsconfig.test.json"
@@ -309,6 +327,9 @@
       "path": "./sources/finage/tsconfig.test.json"
     },
     {
+      "path": "./sources/finage-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/finnhub/tsconfig.test.json"
     },
     {
@@ -316,6 +337,9 @@
     },
     {
       "path": "./sources/flightaware/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/fluent-finance/tsconfig.test.json"
     },
     {
       "path": "./sources/fmpcloud/tsconfig.test.json"
@@ -348,10 +372,16 @@
       "path": "./sources/gsr/tsconfig.test.json"
     },
     {
+      "path": "./sources/icap/tsconfig.test.json"
+    },
+    {
       "path": "./sources/iex-cloud/tsconfig.test.json"
     },
     {
       "path": "./sources/intrinio/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/intrinio-test/tsconfig.test.json"
     },
     {
       "path": "./sources/ipfs/tsconfig.test.json"
@@ -364,6 +394,9 @@
     },
     {
       "path": "./sources/kaiko/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/kaiko-test/tsconfig.test.json"
     },
     {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
@@ -396,16 +429,25 @@
       "path": "./sources/mock-ea/tsconfig.test.json"
     },
     {
+      "path": "./sources/moonbeam-address-list/tsconfig.test.json"
+    },
+    {
       "path": "./sources/mycryptoapi/tsconfig.test.json"
     },
     {
       "path": "./sources/ncfx/tsconfig.test.json"
     },
     {
+      "path": "./sources/nft-blue-chip/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nikkei/tsconfig.test.json"
     },
     {
       "path": "./sources/nomics/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/oanda/tsconfig.test.json"
     },
     {
       "path": "./sources/oilpriceapi/tsconfig.test.json"
@@ -429,13 +471,13 @@
       "path": "./sources/poa/tsconfig.test.json"
     },
     {
+      "path": "./sources/polkadot-balance/tsconfig.test.json"
+    },
+    {
       "path": "./sources/polygon/tsconfig.test.json"
     },
     {
       "path": "./sources/por-address-list/tsconfig.test.json"
-    },
-    {
-      "path": "./non-deployable/reduce/tsconfig.test.json"
     },
     {
       "path": "./sources/renvm-address-set/tsconfig.test.json"
@@ -459,10 +501,19 @@
       "path": "./sources/sportsdataio/tsconfig.test.json"
     },
     {
+      "path": "./sources/stader-address-list/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/stader-balance/tsconfig.test.json"
+    },
+    {
       "path": "./sources/stader-labs/tsconfig.test.json"
     },
     {
       "path": "./sources/stasis/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/swell-address-list/tsconfig.test.json"
     },
     {
       "path": "./sources/synthetix-debt-pool/tsconfig.test.json"
@@ -480,16 +531,25 @@
       "path": "./sources/tiingo/tsconfig.test.json"
     },
     {
+      "path": "./sources/tp/tsconfig.test.json"
+    },
+    {
       "path": "./sources/tradermade/tsconfig.test.json"
     },
     {
       "path": "./sources/tradingeconomics/tsconfig.test.json"
     },
     {
+      "path": "./sources/tradingeconomics-test/tsconfig.test.json"
+    },
+    {
       "path": "./sources/trueusd/tsconfig.test.json"
     },
     {
       "path": "./sources/twelvedata/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/twosigma/tsconfig.test.json"
     },
     {
       "path": "./sources/unibit/tsconfig.test.json"

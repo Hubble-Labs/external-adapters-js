@@ -1,5 +1,317 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.5.46
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.17.7
+
+## 1.5.45
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.17.6
+
+## 1.5.44
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.17.5
+
+## 1.5.43
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.17.4
+
+## 1.5.42
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [bfa201d6d]
+- Updated dependencies [c600ca386]
+- Updated dependencies [bfa201d6d]
+  - @chainlink/proof-of-reserves-adapter@1.17.3
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-test-helpers@1.4.3
+
+## 1.5.41
+
+### Patch Changes
+
+- Updated dependencies [9bcb13c90]
+  - @chainlink/proof-of-reserves-adapter@1.17.2
+
+## 1.5.40
+
+### Patch Changes
+
+- Updated dependencies [31af84e69]
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/proof-of-reserves-adapter@1.17.1
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.5.39
+
+### Patch Changes
+
+- Updated dependencies [50366ec6b]
+- Updated dependencies [77ad946a9]
+  - @chainlink/proof-of-reserves-adapter@1.17.0
+
+## 1.5.38
+
+### Patch Changes
+
+- Updated dependencies [4245b4d8b]
+  - @chainlink/proof-of-reserves-adapter@1.16.9
+
+## 1.5.37
+
+### Patch Changes
+
+- Updated dependencies [8fe5be225]
+  - @chainlink/proof-of-reserves-adapter@1.16.8
+
+## 1.5.36
+
+### Patch Changes
+
+- Updated dependencies [5916b71df]
+  - @chainlink/proof-of-reserves-adapter@1.16.7
+
+## 1.5.35
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.6
+
+## 1.5.34
+
+### Patch Changes
+
+- 2fdaa5aa4: Bump v3 version
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/proof-of-reserves-adapter@1.16.5
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.5.33
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.4
+
+## 1.5.32
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.3
+
+## 1.5.31
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.16.2
+
+## 1.5.30
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/proof-of-reserves-adapter@1.16.1
+  - @chainlink/ea-test-helpers@1.4.2
+
+## 1.5.29
+
+### Patch Changes
+
+- Updated dependencies [dee6d49a3]
+  - @chainlink/proof-of-reserves-adapter@1.16.0
+
+## 1.5.28
+
+### Patch Changes
+
+- Updated dependencies [2d82ecfa2]
+  - @chainlink/proof-of-reserves-adapter@1.15.0
+
+## 1.5.27
+
+### Patch Changes
+
+- Updated dependencies [838c9d927]
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/proof-of-reserves-adapter@1.14.16
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.26
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/proof-of-reserves-adapter@1.14.15
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.25
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.14.14
+
+## 1.5.24
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/proof-of-reserves-adapter@1.14.13
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.23
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.14.12
+
+## 1.5.22
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.14.11
+
+## 1.5.21
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.14.10
+
+## 1.5.20
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/proof-of-reserves-adapter@1.14.9
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.19
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/proof-of-reserves-adapter@1.14.8
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.18
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/proof-of-reserves-adapter@1.14.7
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.17
+
+### Patch Changes
+
+- Updated dependencies [26b046b1e]
+  - @chainlink/ea-bootstrap@2.22.1
+  - @chainlink/proof-of-reserves-adapter@1.14.6
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.16
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/proof-of-reserves-adapter@1.14.5
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.15
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/proof-of-reserves-adapter@1.14.4
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.14
+
+### Patch Changes
+
+- Updated dependencies [b9982adc8]
+- Updated dependencies [f710272c6]
+- Updated dependencies [991fc76af]
+  - @chainlink/ea-bootstrap@2.20.0
+  - @chainlink/proof-of-reserves-adapter@1.14.3
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.13
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.14.2
+
+## 1.5.12
+
+### Patch Changes
+
+- @chainlink/proof-of-reserves-adapter@1.14.1
+
+## 1.5.11
+
+### Patch Changes
+
+- Updated dependencies [2201988f2]
+- Updated dependencies [35fd235d5]
+  - @chainlink/proof-of-reserves-adapter@1.14.0
+
+## 1.5.10
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+- Updated dependencies [80d8170a5]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/proof-of-reserves-adapter@1.13.0
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.9
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/proof-of-reserves-adapter@1.12.14
+  - @chainlink/ea-test-helpers@1.4.1
+
+## 1.5.8
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/proof-of-reserves-adapter@1.12.13
+  - @chainlink/ea-test-helpers@1.4.1
+
 ## 1.5.7
 
 ### Patch Changes

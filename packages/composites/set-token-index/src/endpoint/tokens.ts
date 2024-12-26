@@ -1,21 +1,20 @@
-import { ethers, utils } from 'ethers'
 import {
+  AdapterDataProviderError,
+  ExecuteWithConfig,
+  InputParameters,
   Logger,
   Requester,
   Validator,
-  AdapterDataProviderError,
   util,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { ethers, utils } from 'ethers'
 import { Config } from '../config'
+import * as directory from './directory.mainnet.json'
 
+const cachedDirectory = directory as Directory
 export const supportedEndpoints = ['tokens']
 
 type Directory = Record<string, { symbol: string; decimals: number }>
-
-const getDirectory = async (network: string): Promise<Directory> => {
-  return await import(`./directory.${network}.json`)
-}
 
 const ERC20ABI = [
   {
@@ -57,9 +56,10 @@ const ERC20ABI_bytes32 = [
 
 const getOnChainErc20Token = async (
   rpcUrl: string,
+  chainId: string | number | undefined,
   address: string,
 ): Promise<{ symbol: string; decimals: number }> => {
-  const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl, chainId)
   const _symbol = (abi: ethers.ContractInterface) =>
     new ethers.Contract(address, abi, provider).symbol()
   const decimals = await new ethers.Contract(address, ERC20ABI, provider).decimals()
@@ -78,17 +78,12 @@ const getOnChainSymbol = async (
   }
 }
 
-let cachedDirectory: Directory
-
 export const getToken = async (
   address: string,
   rpcUrl: string,
   network: string,
 ): Promise<{ symbol: string; decimals: number }> => {
-  if (!cachedDirectory) {
-    cachedDirectory = await getDirectory(network)
-  }
-  return cachedDirectory[address] || (await getOnChainErc20Token(rpcUrl, address))
+  return cachedDirectory[address] || (await getOnChainErc20Token(rpcUrl, network, address))
 }
 
 export type TInputParameters = {
@@ -108,10 +103,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
   const address = validator.validated.data.address
 
   try {
-    if (!cachedDirectory) {
-      cachedDirectory = await getDirectory(config.network)
-    }
-    const token = cachedDirectory[address] || (await getOnChainErc20Token(config.rpcUrl, address))
+    const token =
+      cachedDirectory[address] ||
+      (await getOnChainErc20Token(config.rpcUrl, config.chainId, address))
 
     const response = {
       data: token,

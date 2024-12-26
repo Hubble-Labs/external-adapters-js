@@ -1,4 +1,5 @@
 import { InputParameters } from '@chainlink/ea-bootstrap'
+import { Transport } from '@chainlink/external-adapter-framework/transports'
 
 export type Adapter = {
   name: string
@@ -15,14 +16,17 @@ export type EndpointDetails = {
     supportedEndpoints: string[]
     inputParameters: InputParameters
     description?: string
+    aliases?: string[] //v3 field
+    name?: string //v3 field
+    transport?: Transport //v3 field
   }
 }
 
 export type EnvVars = {
   [envVar: string]: {
-    default?: string | number
+    default?: string | number | boolean
     description?: string
-    options?: (string | number)[]
+    options?: readonly string[]
     type?: string
   }
 }
@@ -61,4 +65,12 @@ export type Schema = {
   description?: string
   properties?: EnvVars
   required?: string[]
+  allOf?: (
+    | {
+        $ref: string
+      }
+    | {
+        anyOf: { required: string[] }[]
+      }
+  )[]
 }

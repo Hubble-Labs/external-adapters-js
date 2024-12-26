@@ -15,7 +15,15 @@ import { loadTestPayload } from './config/test-payload-loader'
 import { logger } from './modules/logger'
 import { METRICS_ENABLED, setupMetrics } from './metrics'
 import { get as getRateLimitConfig } from './config/provider-limits/config'
-import { getClientIp, getEnv, toObjectWithNumbers } from './util'
+import {
+  buildCensorList,
+  envVarValidations,
+  getClientIp,
+  getEnv,
+  logEnvVarWarnings,
+  parseBool,
+  toObjectWithNumbers,
+} from './util'
 import { Limits } from './config/provider-limits'
 import process from 'process'
 import { serverShutdown } from './store'
@@ -24,6 +32,7 @@ const version = getEnv('npm_package_version')
 const port = parseInt(getEnv('EA_PORT') as string)
 const baseUrl = getEnv('BASE_URL') as string
 const eaHost = getEnv('EA_HOST') as string
+const maxPayloadSize = parseInt(getEnv('MAX_PAYLOAD_SIZE_LIMIT') as string)
 
 export const HEADER_CONTENT_TYPE = 'Content-Type'
 export const CONTENT_TYPE_APPLICATION_JSON = 'application/json'
@@ -36,10 +45,6 @@ export const initHandler =
     middleware: Middleware<AdapterRequest<D>>[],
   ) =>
   async (): Promise<FastifyInstance> => {
-    const app = Fastify({
-      trustProxy: true,
-      logger: false,
-    })
     const name = adapterContext.name || ''
     const envDefaultOverrides = adapterContext.envDefaultOverrides || {}
     for (const key in envDefaultOverrides) {
@@ -47,6 +52,16 @@ export const initHandler =
         process.env[key] = envDefaultOverrides[key as keyof EnvDefaultOverrides]
       }
     }
+
+    // Validate env vars and fail startup if conditions not met
+    envVarValidations()
+
+    const app = Fastify({
+      trustProxy: true,
+      logger: false,
+      bodyLimit: maxPayloadSize,
+    })
+
     const rateLimit: Limits = adapterContext.rateLimit || { http: {}, ws: {} }
     let context: AdapterContext = {
       name,
@@ -66,6 +81,12 @@ export const initHandler =
       cacheOptions.instance = await cacheOptions.cacheBuilder(cacheOptions.cacheImplOptions)
       context.cache = cacheOptions
     }
+
+    // Build list of env var values to censor in logs
+    buildCensorList()
+
+    // Log warnings based on env vars
+    logEnvVarWarnings()
 
     if (METRICS_ENABLED) {
       setupMetricsServer(name)
@@ -145,7 +166,7 @@ export const initHandler =
 
     return new Promise((resolve) => {
       app.listen(port, eaHost, (_, address) => {
-        logger.info(`Server listening on ${address}!`)
+        logger.info(`Server listening on ${address}`)
         resolve(app)
       })
     })
@@ -156,7 +177,8 @@ function setupMetricsServer(name: string) {
     logger: false,
   })
   const metricsPort = parseInt(getEnv('METRICS_PORT') as string)
-  const endpoint = getEnv('METRICS_USE_BASE_URL') ? join(baseUrl, 'metrics') : '/metrics'
+  const endpoint = parseBool(getEnv('METRICS_USE_BASE_URL')) ? join(baseUrl, 'metrics') : '/metrics'
+  logger.info(`Metrics endpoint: http://${eaHost}:${metricsPort}${endpoint}`)
 
   setupMetrics(name)
 
@@ -165,7 +187,5 @@ function setupMetricsServer(name: string) {
     res.send(await client.register.metrics())
   })
 
-  metricsApp.listen(metricsPort, eaHost, () =>
-    logger.info(`Monitoring listening on port ${metricsPort}!`),
-  )
+  metricsApp.listen(metricsPort, eaHost)
 }

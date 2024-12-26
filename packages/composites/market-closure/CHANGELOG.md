@@ -1,5 +1,213 @@
 # @chainlink/market-closure-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- 23dd2a109: Updated implementation to account for Finnhub v3 upgrade
+
+### Patch Changes
+
+- Updated dependencies [23dd2a109]
+  - @chainlink/finnhub-adapter@2.0.0
+
+## 1.2.31
+
+### Patch Changes
+
+- c600ca386: Upgrade typescript version to 5.0.4
+- Updated dependencies [c600ca386]
+  - @chainlink/ea-bootstrap@2.27.1
+  - @chainlink/ea-reference-data-reader@1.3.30
+  - @chainlink/ea-test-helpers@1.4.3
+  - @chainlink/fcsapi-adapter@1.2.31
+  - @chainlink/finnhub-adapter@1.2.31
+
+## 1.2.30
+
+### Patch Changes
+
+- Updated dependencies [3dc13a0bc]
+  - @chainlink/ea-bootstrap@2.27.0
+  - @chainlink/ea-reference-data-reader@1.3.29
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/fcsapi-adapter@1.2.30
+  - @chainlink/finnhub-adapter@1.2.30
+
+## 1.2.29
+
+### Patch Changes
+
+- Updated dependencies [2fdaa5aa4]
+  - @chainlink/ea-bootstrap@2.26.1
+  - @chainlink/ea-reference-data-reader@1.3.28
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/fcsapi-adapter@1.2.29
+  - @chainlink/finnhub-adapter@1.2.29
+
+## 1.2.28
+
+### Patch Changes
+
+- 65014014d: Upgraded typescript version to 4.9.5
+- Updated dependencies [b29509be0]
+- Updated dependencies [65014014d]
+  - @chainlink/ea-bootstrap@2.26.0
+  - @chainlink/ea-reference-data-reader@1.3.27
+  - @chainlink/ea-test-helpers@1.4.2
+  - @chainlink/fcsapi-adapter@1.2.28
+  - @chainlink/finnhub-adapter@1.2.28
+
+## 1.2.27
+
+### Patch Changes
+
+- Updated dependencies [838c9d927]
+  - @chainlink/ea-bootstrap@2.25.2
+  - @chainlink/ea-reference-data-reader@1.3.26
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.27
+  - @chainlink/finnhub-adapter@1.2.27
+
+## 1.2.26
+
+### Patch Changes
+
+- Updated dependencies [0719f739b]
+  - @chainlink/ea-bootstrap@2.25.1
+  - @chainlink/ea-reference-data-reader@1.3.25
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.26
+  - @chainlink/finnhub-adapter@1.2.26
+
+## 1.2.25
+
+### Patch Changes
+
+- Updated dependencies [fc46b78fc]
+- Updated dependencies [1de0689c6]
+  - @chainlink/ea-bootstrap@2.25.0
+  - @chainlink/ea-reference-data-reader@1.3.24
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.25
+  - @chainlink/finnhub-adapter@1.2.25
+
+## 1.2.24
+
+### Patch Changes
+
+- Updated dependencies [e8576df4e]
+- Updated dependencies [842651f93]
+  - @chainlink/ea-bootstrap@2.24.0
+  - @chainlink/ea-reference-data-reader@1.3.23
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.24
+  - @chainlink/finnhub-adapter@1.2.24
+
+## 1.2.23
+
+### Patch Changes
+
+- Updated dependencies [13eb04f5a]
+- Updated dependencies [221ab1e5f]
+  - @chainlink/ea-bootstrap@2.23.0
+  - @chainlink/ea-reference-data-reader@1.3.22
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.23
+  - @chainlink/finnhub-adapter@1.2.23
+
+## 1.2.22
+
+### Patch Changes
+
+- Updated dependencies [572b89314]
+- Updated dependencies [068dd3672]
+  - @chainlink/ea-bootstrap@2.22.2
+  - @chainlink/ea-reference-data-reader@1.3.21
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.22
+  - @chainlink/finnhub-adapter@1.2.22
+
+## 1.2.21
+
+### Patch Changes
+
+- Updated dependencies [26b046b1e]
+  - @chainlink/ea-bootstrap@2.22.1
+  - @chainlink/ea-reference-data-reader@1.3.20
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.21
+  - @chainlink/finnhub-adapter@1.2.21
+
+## 1.2.20
+
+### Patch Changes
+
+- Updated dependencies [b8061e1d5]
+  - @chainlink/ea-bootstrap@2.22.0
+  - @chainlink/ea-reference-data-reader@1.3.19
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.20
+  - @chainlink/finnhub-adapter@1.2.20
+
+## 1.2.19
+
+### Patch Changes
+
+- Updated dependencies [3c1a320b5]
+  - @chainlink/ea-bootstrap@2.21.0
+  - @chainlink/ea-reference-data-reader@1.3.18
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.19
+  - @chainlink/finnhub-adapter@1.2.19
+
+## 1.2.18
+
+### Patch Changes
+
+- Updated dependencies [b9982adc8]
+- Updated dependencies [f710272c6]
+- Updated dependencies [991fc76af]
+  - @chainlink/ea-bootstrap@2.20.0
+  - @chainlink/ea-reference-data-reader@1.3.17
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.18
+  - @chainlink/finnhub-adapter@1.2.18
+
+## 1.2.17
+
+### Patch Changes
+
+- Updated dependencies [5e7393deb]
+- Updated dependencies [5e7393deb]
+  - @chainlink/ea-bootstrap@2.19.3
+  - @chainlink/ea-reference-data-reader@1.3.16
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.17
+  - @chainlink/finnhub-adapter@1.2.17
+
+## 1.2.16
+
+### Patch Changes
+
+- Updated dependencies [3a0e5aaa9]
+  - @chainlink/ea-bootstrap@2.19.2
+  - @chainlink/ea-reference-data-reader@1.3.15
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.16
+  - @chainlink/finnhub-adapter@1.2.16
+
+## 1.2.15
+
+### Patch Changes
+
+- Updated dependencies [05a3f9464]
+  - @chainlink/ea-bootstrap@2.19.1
+  - @chainlink/ea-reference-data-reader@1.3.14
+  - @chainlink/ea-test-helpers@1.4.1
+  - @chainlink/fcsapi-adapter@1.2.15
+  - @chainlink/finnhub-adapter@1.2.15
+
 ## 1.2.14
 
 ### Patch Changes
